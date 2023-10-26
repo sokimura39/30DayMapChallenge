@@ -1,0 +1,122 @@
+---
+title: "Day2_Lines"
+author: "Soki Kimura"
+date: "2023-11-02"
+output: html_document
+---
+
+```{r}
+library(sf)
+library(janitor)
+library(dplyr)
+library(tmap)
+library(tmaptools)
+library(showtext)
+library(rmapshaper)
+source("mapping.R")
+
+font_add_google("Fira Sans")
+font_add_google("Hammersmith One")
+showtext_auto()
+
+```
+
+
+# Load data
+
+```{r}
+# load bus
+bus_route <- st_read("../Data/Bus/Data/bus_routes.geojson") %>%
+  st_transform(., 27700)
+
+# load London Boroughs
+boroughs <- st_read("../Data/London_polygons/London_Boroughs.gpkg") %>%
+  st_transform(., 27700)
+
+# load River Thames
+thames <- st_read("../Data/London_polygons/River_Thames_simplified.gpkg") %>%
+  st_transform(., 27700)
+
+# simplify River
+thames_simple <- thames %>%
+  simplify_shape(., fact = 0.5)
+
+# simplify buses
+bus_route_simple <- bus_route %>%
+  simplify_shape(., fact = 0.1)
+
+```
+
+# set bounding box to square
+
+```{r}
+
+box <- st_bbox(bus_route) %>%
+  square_bbox(., 1.1) %>%
+  move_bbox(., 0, 0.05)
+
+```
+
+# Draw map
+
+```{r}
+
+day = 2
+theme = "Lines"
+map_title = "Bus Routes in London"
+sources = "OpenStreetMap, Transport for London Unified API"
+
+exp_line1 = "Transport for London Bus Routes"
+exp_line2 = ""
+
+tmap_mode("plot")
+tmap_options(max.categories = 140)
+
+map <-
+tm_shape(boroughs, bbox = box) +
+  tm_fill(col = "gray95") +
+  tm_borders(col = "white", lwd = 3) +
+  tm_shape(thames_simple, ) +
+  tm_fill(col = "white") +
+  tm_shape(bus_route) + 
+  tm_lines(col = "red",
+           lwd = 1.5) + 
+  tm_credits(exp_line1,
+             col = "gray40",
+             size = 3,
+             position = c(0,0.78),
+             just = 0) +
+  tm_credits(exp_line2,
+             col = "gray40",
+             size = 3,
+             position = c(0,0.74),
+             just = 0) +
+  tm_credits(paste("#30DayMapChallenge Day ", day, " - ",theme),
+             col = "gray40",
+             size = 2,
+             position = c(0,1),
+             just = c(0,1)) +
+  tm_compass(type="8star",
+             show.labels = FALSE,
+             color.dark = "gray40",
+             size = 6,
+             position = c(0,0.07),) +
+  tm_credits(paste("Sources:", sources, sep = " "), 
+             col = "gray40",
+             size = 2,
+             position = c(0,0)) + 
+  tm_layout(bg.color = "white",
+            scale = 1,
+            frame = FALSE,
+            # legend.show = FALSE,
+            fontfamily = "Hammersmith One",
+            title = map_title,
+            title.color = "gray20",
+            title.size = 5,
+            title.position = c(0.02,0.90),)
+  
+tmap_save(map,filename = "../Maps/Day02.png")
+
+```
+
+

@@ -1,0 +1,52 @@
+---
+title: "Day17_Flow"
+author: "Soki Kimura"
+date: "2023-11-17"
+output: html_document
+---
+
+# Loading Data
+
+```{r}
+library(sf)
+library(janitor)
+library(dplyr)
+library(tmap)
+library(tmaptools)
+
+# load docks
+bike_points <- st_read("../Data/Cycles/Points/BikePoints_edit.geojson") %>%
+  # transform into British National Grid
+  st_transform(., 27700)
+
+print(bike_points)  
+
+# load trips
+trip_data <- st_read("../Data/Cycles/Journeys/journeys_100002.geojson") %>%
+  # transform into British National Grid
+  st_transform(., 27700)
+```
+
+
+
+```{r}
+# calculate journey distance and speed
+trip_data <- trip_data %>%
+  mutate(distance = st_length(.)) %>%
+  mutate(speed = distance / duration * 1000)
+```
+
+
+```{r}
+# show map
+tmap_mode("view")
+tm_basemap(server = "OpenStreetMap")
+tm_shape(trip_data) + 
+  tm_lines("speed",
+           lwd = 1,
+           style = "fisher",
+           alpha = 0.5)
+
+
+```
+

@@ -1,0 +1,129 @@
+---
+title: "Day1_Points"
+author: "Soki Kimura"
+date: "2023-11-01"
+output: html_document
+---
+
+# Importing libraries and source files
+
+```{r}
+library(sf)
+library(janitor)
+library(dplyr)
+library(tmap)
+library(tmaptools)
+library(showtext)
+library(rmapshaper)
+source("mapping.R") # functions used throughout the challenge
+
+font_add_google("Fira Sans")
+font_add_google("Hammersmith One")
+showtext_auto()
+
+```
+
+# Load Data
+
+```{r}
+# load docks
+bike_points <- st_read("../Data/Cycles/Points/BikePoints_edit.geojson") %>%
+  # transform into British National Grid
+  st_transform(., 27700) %>%
+  mutate(., ports = as.numeric(ports))
+
+# load London Boroughs
+boroughs <- st_read("../Data/London_polygons/London_Boroughs.gpkg") %>%
+  st_transform(., 27700)
+
+# load River Thames
+thames <- st_read("../Data/London_polygons/River_Thames_simplified.gpkg") %>%
+  st_transform(., 27700)
+
+# simplify River
+thames_simple <- thames %>%
+  simplify_shape(., fact = 0.5)
+
+```
+# set bounding box to square
+
+```{r}
+
+box <- st_bbox(bike_points) %>%
+  square_bbox(., 1.1) %>%
+  move_bbox(., 0, 0.05)
+  
+
+```
+
+
+# Draw map
+
+```{r}
+
+tmap_mode("plot")
+tmap_options(max.categories = 140)
+
+map <-
+# tm_shape(boroughs, bbox = box) +
+#   tm_fill(col = "gray90") +
+#   tm_borders(col = "white") +
+  tm_shape(thames_simple, bbox = box) +
+  tm_fill(col = "skyblue") +
+  tm_shape(bike_points) + 
+  tm_symbols(col = "area",
+          size = "ports",
+          border.lwd = NA,
+          scale = 0.6,
+          title.size = "",
+          legend.col.show = FALSE,
+          legend.size.show = TRUE,
+          legend.size.is.portrait = FALSE) + 
+  tm_credits("Colors grouped by the area in the docking station name.",
+             col = "gray40",
+             size = 3,
+             position = c(0,0.78),
+             just = 0) + 
+  tm_credits("e.g. \"Gower Place, Euston\" and all others in the \"Euston\" area are grouped together.",
+             col = "gray40",
+             size = 3,
+             position = c(0,0.74),
+             just = 0) + 
+  tm_credits("#30DayMapChallenge Day 1 - Points",
+             col = "gray40",
+             size = 2,
+             position = c(0,1),
+             just = c(0,1)) +
+  tm_compass(type="8star",
+             show.labels = FALSE,
+             color.dark = "gray40",
+             size = 6,
+             position = c(0,0.07),) +
+  tm_credits("Sources: OpenStreetMap, Transport for London Unified API", 
+             col = "gray40",
+             size = 2,
+             position = c(0,0)) + 
+  tm_credits("Number of Ports",
+             col = "gray20",
+             size = 2,
+             position = c(0.89,0.35),
+             just = c(0.5,1)) + 
+  tm_layout(bg.color = "white",
+            scale = 1,
+            frame = FALSE,
+            fontfamily = "Hammersmith One",
+            title = "Santander Cycle Docking Stations in London",
+            title.color = "gray20",
+            title.size = 5,
+            title.position = c(0.02,0.90),
+            legend.position = c(0.9,0.4),
+            legend.just = c(0.5,1),
+            legend.width = 0.5,
+            legend.text.size = 2,
+            legend.text.color = "gray20",
+            legend.bg.alpha = 0)
+  
+tmap_save(map,filename = "../Maps/Day01.png")
+
+```
+
