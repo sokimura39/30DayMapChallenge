@@ -13,10 +13,9 @@ library(sf)
 library(showtext)
 library(rmapshaper)
 library(tmap)
-library(ggrepel)
-source("mapping.R")
+library(ggspatial)
 
-# font_add_google("Fira Sans")
+font_add_google("Fira Sans")
 showtext_auto()
 ```
 
@@ -91,7 +90,8 @@ gb_BNG <- simple_gb %>%
 day = 3
 theme = "Polygons"
 map_title = "Green Belts in England"
-sources = ""
+map_subtitle = ""
+sources = "data.gov.uk, gadm.org"
 
 
 # ggplot
@@ -106,9 +106,10 @@ plot <-
   geom_sf(
     data = gb_BNG,
     # aes(fill = GB_Name), 
-    fill = "darkolivegreen4",
+    fill = "darkolivegreen3",
     color = NA
   ) +
+  # uncomment for labels
   # geom_text_repel(
   #   data = gb_BNG,
   #   aes(label = GB_Name, geometry = geom),
@@ -116,22 +117,58 @@ plot <-
   # ) + 
   labs(
     title = map_title,
-    subtitle = paste("30DayMapChallenge Day",day,"-",theme, sep = " "),
-    caption = paste("Sources:",sources, sep = " ")    
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    x = NULL,
+    y = NULL
   ) +
+  annotation_north_arrow(
+    location = "tr",
+    style = north_arrow_fancy_orienteering(
+      line_col = "white",
+      fill = c("white","darkolivegreen2"),
+      text_col = NA
+    )
+  ) +
+  
   theme(
     text = element_text(
-      # family = "Fira Sans",
+      family = "Fira Sans",
+      size = 30,
+      color = "white"
     ),
+    plot.title = element_text(
+      size = 75,
+      vjust = -5,
+    ),
+    plot.subtitle = element_text(
+      size = 45,
+      vjust = -11
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0,0.98),
     plot.background = element_rect(
-      fill = "aliceblue"
+      fill = "darkolivegreen",
+      color = NA,
     ),
     panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
   )
 
-
-
-plot
+ggsave(
+  "../Maps/Day03.png",
+  plot = plot,
+  width = 7,
+  height = 7
+  )
 
 
 ```
