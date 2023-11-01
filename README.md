@@ -1,14 +1,14 @@
 # 30DayMapChallenge
 
-This is my contribution to the #30DayMapChallenge for November 2023.  
+This is my contribution to the #30DayMapChallenge for November 2023.\
 About the #30DayMapChallenge , check out <https://30daymapchallenge.com/> !
 
 ## Introduction
 
 ### About me
 
-I am a postgraduate student studying GIS and data science at UCL, trying to learn R, python, and making use of GitHub.  
-Background in planning, new to London from Japan, some knowledge about QGIS, and interested in graphic design (trying to make the maps as aesthetic as possible!)  
+I am a postgraduate student studying GIS and data science at UCL, trying to learn R, python, and making use of GitHub.\
+Background in planning, new to London from Japan, some knowledge about QGIS, and interested in graphic design (trying to make the maps as aesthetic as possible!)
 
 ### This repository is:
 
@@ -21,16 +21,19 @@ The data itself will not be uploaded due to limitations in file size, but I will
 
 ### My goals
 
-Through the #30DayMapChallenge I want to:
-- be more familiar with R and python to draw maps using code. I will try to stay away from QGIS and Illustrator, although it is tempting to use them...
-- also be familiar with other software that I don't know. Blender might be one of them.
-- know more about London, the UK and Europe. The datasets will probably feature London and surrounding areas a lot. Some data might come from Japan.
-- know where to get data. Any recommendations are appreciated!
+Through the #30DayMapChallenge I want to: - be more familiar with R and python to draw maps using code. I will try to stay away from QGIS and Illustrator, although it is tempting to use them... - also be familiar with other software that I don't know. Blender might be one of them. - know more about London, the UK and Europe. The datasets will probably feature London and surrounding areas a lot. Some data might come from Japan. - know where to get data. Any recommendations are appreciated!
 
 ## The Maps
 
-I will start uploading maps on this page, but I might play around with the format as this page gets longer. 
+I will start uploading maps on this page, but I might play around with the format as this page gets longer.
 
 ### Day 1: Points
 
-Coming very soon!
+![Santander Cycle Docking Stations in London](Maps/Day01.png)
+
+For the very first day of my very first #30DayMapChallenge, I have mapped the docking stations for the Santander Cycle, a bike-sharing scheme in London.  
+The points are colored according to the area name within the docking station name.
+
+Sources: TfL, OpenStreetMap 
+
+
