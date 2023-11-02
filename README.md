@@ -35,7 +35,8 @@ The map for lines - the routes for the iconic double-decker (and single-decker) 
 The shaded area show the area of the 33 London Boroughs.  
 The vast network covers most of London, and some routes go beyond to Slough and Dorking as well.
 
-Credits for Transport for London again!
+Credits for Transport for London again!  
+I was trying to access their API to download all the routes, but couldn't find a way decent way to access in a way that I don't hit the limit.
 
 Sources: TfL Unified API, London Datastore
 
