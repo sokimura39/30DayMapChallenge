@@ -36,7 +36,8 @@ The shaded area show the area of the 33 London Boroughs.
 The vast network covers most of London, and some routes go beyond to Slough and Dorking as well.
 
 Credits for Transport for London again!  
-I was trying to access their API to download all the routes, but couldn't find a way decent way to access in a way that I don't hit the limit.
+
+I wanted to make a route diagram of the whole bus network (something like the tube network map) with all the routes drawn explicitly, but couldn't find a way to deal with the overlaps. Still illustrates the complexity of the network!
 
 Sources: TfL Unified API, London Datastore
 
