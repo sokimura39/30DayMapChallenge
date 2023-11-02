@@ -27,6 +27,18 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 I will start uploading maps on this page, but I might play around with the format as this page gets longer.
 
+### Day 2: Lines
+
+![London Bus Routes](Maps/Day02.png)
+
+The map for lines - the routes for the iconic double-decker (and single-decker) bus routes in London!  
+The shaded area show the area of the 33 London Boroughs.  
+The vast network covers most of London, and some routes go beyond to Slough and Dorking as well.
+
+Credits for Transport for London again!
+
+Sources: TfL Unified API, London Datastore
+
 ### Day 1: Points
 
 ![Santander Cycle Docking Stations in London](Maps/Day01.png)
@@ -34,6 +46,6 @@ I will start uploading maps on this page, but I might play around with the forma
 For the very first day of my very first #30DayMapChallenge, I have mapped the docking stations for the Santander Cycle, a bike-sharing scheme in London.  
 The points are colored according to the area name within the docking station name.
 
-Sources: TfL, OpenStreetMap 
+Sources: TfL Unified API, OpenStreetMap 
 
 
