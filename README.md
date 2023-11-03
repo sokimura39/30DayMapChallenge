@@ -25,7 +25,16 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
-I will start uploading maps on this page, but I might play around with the format as this page gets longer.
+### Day 3: Polygons
+
+![English Green Belts](Maps/Day03.png)
+
+Polygons lets you do everything, so I chose this theme because wanted the geometry of the polygon to speak for itself.  
+The Green Belts in England is definitely something that characterizes its urban structure, and I mapped it! I didn't know there are so many cities with green belts around them.  
+I also tried out the ggplot2 package to map today. I found it difficult to show texts the way I want it to, but maybe practice makes better!
+
+Sources: data.gov.uk, gadm.org
+
 
 ### Day 2: Lines
 

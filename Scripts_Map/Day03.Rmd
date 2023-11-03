@@ -1,0 +1,180 @@
+---
+title: "Day3_Polygons"
+author: "Soki Kimura"
+date: "2023-11-03"
+output: html_document
+---
+
+# Load libraries
+
+```{r}
+library(tidyverse)
+library(sf)
+library(showtext)
+library(rmapshaper)
+library(tmap)
+library(ggspatial)
+
+font_add_google("Fira Sans")
+showtext_auto()
+```
+
+# Load data
+
+```{r}
+
+# load geometry for England
+# source: https://gadm.org/download_country.html
+# used file: https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_GBR.gpkg
+uk_polygon <- st_read(
+  "../Data/UK_polygons/gadm41_GBR.gpkg",
+  layer = "ADM_ADM_1"
+  )
+
+england <- uk_polygon %>%
+  filter(., GID_1 == "GBR.1_1") %>%
+  st_simplify(., dTolerance = 100)  
+
+# load geometry for Green Belt
+# If data is already stored, just load
+# Trying to avoid the merging and simplifying
+
+gb_source <- "../Data/Green_Belt/Green_Belt_Simple.gpkg"
+
+if(file.exists(gb_source) == TRUE){
+  
+  # if edited file exists, load from file
+  simple_gb <- st_read(gb_source)
+  
+} else {
+  
+  # if edited file not saved, load, edit and save file
+  # source: https://www.data.gov.uk/dataset/ccb505e0-67a8-4ace-b294-19a3cbff4861/english-local-authority-green-belt-dataset
+  green_belt <- st_read(
+    "../Data/Green_Belt/England_Green_Belt_2021-22_WGS84/England_Green_Belt_2021-22_WGS84.shp"
+    ) %>%
+    st_make_valid(.)
+  
+  # group Green Belt
+  group_gb <- green_belt %>%
+    group_by(., GB_Name) %>%
+    summarise(geometry = st_union(geometry)) %>%
+    st_make_valid(.)
+  
+  # simplify Green Belt
+  simple_gb <- group_gb %>%
+    st_simplify(., dTolerance = 100)
+  
+  # save Green Belt
+  
+  st_write(
+    simple_gb,
+    dsn = gb_source,
+    delete_dsn = TRUE
+  )
+}
+
+```
+
+# Draw map using ggplot
+
+```{r}
+
+# change projection to British National Grid
+
+england_BNG <- england %>%
+  st_transform(., 27700)
+
+gb_BNG <- simple_gb %>%
+  st_transform(., 27700)
+
+# set the metadata for graphic
+day = 3
+theme = "Polygons"
+map_title = "Green Belts in England"
+map_subtitle = "Land designated by the local authority as Green Belt\n"
+sources = "data.gov.uk, gadm.org"
+
+# make plots using ggplot2 package
+
+plot <- 
+  ggplot() +
+  
+  # draw map of England
+  geom_sf(
+    data = england_BNG,
+    fill = "white",
+    color = NA
+  ) +
+  
+  # draw the Green Belts
+  geom_sf(
+    data = gb_BNG, 
+    fill = "darkolivegreen3",
+    color = NA
+  ) +
+  
+  # set title and labels
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    x = NULL,
+    y = NULL
+  ) +
+  
+  # add north arrow
+  annotation_north_arrow(
+    location = "tr",
+    style = north_arrow_fancy_orienteering(
+      line_col = "white",
+      fill = c("white","darkolivegreen2"),
+      text_col = NA
+    )
+  ) +
+  
+  # set the aesthetics
+  theme(
+    text = element_text(
+      family = "Fira Sans",
+      size = 30,
+      color = "white",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 75,
+      vjust = -5,
+    ),
+    plot.subtitle = element_text(
+      size = 45,
+      vjust = -11
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0,0.98),
+    plot.background = element_rect(
+      fill = "darkolivegreen",
+      color = NA,
+    ),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+# save as png
+ggsave(
+  "../Maps/Day03.png",
+  plot = plot,
+  width = 7,
+  height = 7
+  )
+
+
+```
+
