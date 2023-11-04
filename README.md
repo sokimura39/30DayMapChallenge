@@ -27,7 +27,7 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ### Day 4: Bad Maps
 
-![Imaginary London Sites](Map/Day04.png)
+![Imaginary London Sites](Maps/Day04.png)
 
 Okay, a bad map.  
 I decided to make a map with the wrong information: fake must-see spots within London!  
