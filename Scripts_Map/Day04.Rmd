@@ -1,0 +1,169 @@
+---
+title: "Day04_A_Bad_Map"
+author: "Soki Kimura"
+date: "2023-10-31"
+output: html_document
+---
+
+# Load libraries
+
+```{r}
+library(tidyverse)
+library(sf)
+library(OpenStreetMap)
+library(showtext)
+library(ggspatial)
+library(ggrepel)
+source("mapping.R")
+
+font_add_google("Hachi Maru Pop")
+showtext_auto()
+
+```
+
+# Load data
+```{r}
+# List of imaginary Points of Interest
+imaginary_poi <- st_read(
+  "../Data/Imaginary_Places/imaginary_places_with_category.geojson"
+  ) %>%
+  st_transform(., 3857)
+
+# get bounding box
+poi_bbox <- imaginary_poi %>%
+  st_bbox(.) %>%
+  square_bbox(., zoom = 1.2)
+
+# get square on mercator projection
+bbox_df <- data.frame(
+  lat = c(poi_bbox[2],poi_bbox[4]),
+  lon = c(poi_bbox[1],poi_bbox[3])
+)
+
+bbox_geom <- st_geometry(
+    st_as_sf(bbox_df, coords = c("lon","lat")),
+  ) %>%
+  st_set_crs(., 3857) %>%
+  st_transform(., 4326) %>%
+  st_bbox(.)
+
+bbox <- as.numeric(bbox_geom)
+bbox2 <- st_geometry(
+    st_as_sf(bbox_df, coords = c("lon","lat")),
+  ) %>%
+  st_set_crs(., 3857) %>%
+  st_bbox(.)
+
+# Load basemap
+basemap <- openmap(
+  c(bbox[4],bbox[1]), # upperLeft
+  c(bbox[2],bbox[3]), # lowerRight
+)
+```
+
+# Draw
+
+```{r}
+
+day = 4
+theme = "Bad Maps"
+map_title = "Tourist Spots in London \nMade Up by ChatGPT"
+map_subtitle = "I asked ChatGPT to make up imaginary tourist spots"
+sources = "ChatGPT, OpenStreetMap"
+
+
+plot <- autoplot.OpenStreetMap(basemap) +
+  annotate(
+    "rect", 
+    xmin = bbox2[1], 
+    xmax = bbox2[3],
+    ymin = bbox2[2],
+    ymax = bbox2[4],
+    fill = alpha("white",0.8)
+    ) +
+  geom_sf(
+    data = imaginary_poi,
+    aes(
+      x = st_coordinates(geometry)[1],
+      color = category)
+  )  +
+  geom_text_repel(
+    data = imaginary_poi,
+    aes(x = st_coordinates(geometry)[1], label = name, geometry = geometry),
+    stat = "sf_coordinates",
+    size = 7,
+    family = "Hachi Maru Pop",
+    nudge_x = 100,
+    nudge_y = 100
+  ) +
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    x = NULL,
+    y = NULL,
+    color = "Category"
+  ) +
+  annotation_north_arrow(
+    location = "tr",
+    style = north_arrow_fancy_orienteering(
+      line_col = "white",
+      fill = c("gray50","gray10"),
+      text_col = NA
+    )
+  ) +
+  
+  theme(
+    text = element_text(
+      family = "Hachi Maru Pop",
+      size = 30,
+      color = "gray10",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 50,
+      hjust = 0.03,
+      vjust = -30,
+    ),
+    plot.subtitle = element_text(
+      size = 35,
+      vjust = -45,
+      hjust= 0.1
+    ),
+    plot.caption = element_text(
+      size = 30,
+      vjust = 15,
+      hjust = 0.1
+    ),
+    plot.title.position = "panel",
+    plot.caption.position = "panel",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0.02,0.85),
+    plot.background = element_rect(
+      fill = "darkolivegreen",
+      color = NA,
+    ),
+    plot.margin = margin(t = -70, r = -30, b = -20, l = -30, unit = "pt"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0.95,0.05),
+    legend.justification = c("right", "bottom"),
+  )
+
+ggsave(
+  "../Maps/Day04.png",
+  plot = plot,
+  width = 7,
+  height = 7
+  )
+
+```
+
+
+

@@ -25,6 +25,58 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 4: Bad Maps
+
+![Imaginary London Sites](Map/Day04.png)
+
+Okay, a bad map.  
+I decided to make a map with the wrong information: fake must-see spots within London!  
+I asked ChatGPt to make up some spots to recommend to an innocent tourist!
+It must believe that steampunk is something really big in London.
+ChatGPT has made up a description for me as well. Everything is so WRONG!  
+Enjoy your time in imaginary London!
+
+Sources: ChatGPT, OpenStreetMap
+
+#### Points of Interests
+
+Keep in mind, this is imaginary!
+
+##### Entertainment
+
+| **Name**               | **Description**                                                                                                                                                         |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chrono Square          | A mysterious square near the River Thames, where time seems to stand still, and every clock displays a different era.                                                   |
+| Luminous Alley         | A narrow, cobblestone alley in Soho that glows softly at night, rumored to be haunted by friendly ghosts that guide lost travelers.                                     |
+| Mystic Bazaar          | A bustling market in Camden, where travelers can find exotic artifacts, magical trinkets, and fortune tellers predicting the future.                                    |
+| Steampunk Square       | A square in Greenwich adorned with intricate steampunk sculptures and gadgets, reminiscent of a bygone industrial era.                                                  |
+| Moonlit Masquerade     | An elegant ballroom in Westminster, hosting enchanting masquerade parties, live orchestras, and dance performances under the shimmering moonlight.                      |
+| Theater of Legends     | A historic theater in Camden, where legendary performances from Shakespearean plays to modern dramas captivate audiences, preserving the city's theatrical heritage.    |
+| Steampunk Emporium     | A steampunk-themed marketplace in Westminster, showcasing intricate gadgets, retro-futuristic fashion, and unique artifacts from the Victorian era.                     |
+| The Whimsical Workshop | An imaginative workshop in Soho, where artists, inventors, and dreamers collaborate to create fantastical sculptures, whimsical gadgets, and interactive installations. |
+
+##### Nature & Relaxation
+
+| **Name**                 | **Description**                                                                                                                                              |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Ethereal Gardens         | A magical garden hidden behind the façade of an old bookstore in the heart of Covent Garden, where rare and mythical plants flourish.                        |
+| Aquaville                | An underwater city beneath the Thames, accessible only through secret tunnels, where merfolk and humans coexist in harmony.                                  |
+| Whispering Willow Park   | A secluded park in Kensington where the wind whispers secrets to those who sit beneath the ancient willow tree.                                              |
+| Verdant Vale Gardens     | A lush garden oasis in Wandsworth, where rare plants, cascading waterfalls, and colorful butterflies create a picturesque natural retreat.                   |
+| Elysian Park             | A serene park in Lambeth, known for its blooming flowers, tranquil ponds, and a statue of a mythical goddess, creating an idyllic atmosphere.                |
+| Glowing Lotus Garden     | A serene garden in Lambeth illuminated by radiant lotus flowers at night, offering a meditative atmosphere for quiet reflection and contemplation.           |
+| Tranquil Treetop Retreat | A secluded treetop sanctuary in Greenwich, featuring cozy treehouse cabins, hammocks, and meditation areas, offering a peaceful escape amidst nature.        |
+| Enchanted Forest         | A magical forest in Southwark, home to mythical creatures, sparkling waterfalls, and ancient ruins, inviting visitors on a whimsical adventure.              |
+| Royal Rose Gardens       | A regal garden in Kensington, adorned with blooming roses of various colors, where visitors can indulge in afternoon tea and enjoy classical music concerts. |
+
+##### Historic
+
+| **Name**               | **Description**                                                                                                                                   |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Time Traveler's Tavern | A historic tavern in Islington, where time travelers from different eras gather, sharing stories over ale and traditional British fare.           |
+| Historical Harbor      | A historic harbor in Tower Hamlets, once bustling with trade ships and pirate legends, now transformed into a museum preserving maritime history. |
+| Theater of Legends     | A historic theater in Camden, where legendary performances from Shakespearean plays to modern dramas captivate audiences, preserving the city's theatrical heritage. |
+
 ### Day 3: Polygons
 
 ![English Green Belts](Maps/Day03.png)
