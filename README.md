@@ -27,7 +27,7 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ### Day 6: Asia
 
-![Airports in Asia](maps/Day06.png)
+![Airports in Asia](Maps/Day06.png)
 
 When I think about Asia, what comes to my mind are the huge airports competing against each other for size, efficiency, and the status as the world hub.  
 I have mapped the 50 largest airport by annual passengers, with labeling the top 5.  
