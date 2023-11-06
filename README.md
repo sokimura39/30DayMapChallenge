@@ -25,7 +25,24 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
-### Day 4: Bad Maps
+### Day 5: Analog Map
+
+![Mental Map of London](Maps/Day05.png)
+
+For an analog map, I made a map of London - in a way I understand it!  
+Inspired by **"The Image of the City"** I tried to draw what I know about the city, and how each component affects how I perceive it.  
+Few things I noticed:
+- Inside or outside of the Ring Road is a big deal to me, crossing it is another big deal (every day I do!)
+- The roads and rail do help me a lot when it comes to recognition
+- Cycling around the city did help me a lot!
+- I know too little about the east
+- I know too little about the south
+
+I hope I get to know this city a little better in the near future!
+
+Source: Me!
+
+### Day 4: A Bad Map
 
 ![Imaginary London Sites](Maps/Day04.png)
 
