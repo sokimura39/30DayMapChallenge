@@ -25,6 +25,12 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 6: Asia
+
+![Airports in Asia](maps/Day06.png)
+
+
+
 ### Day 5: Analog Map
 
 ![Mental Map of London](Maps/Day05.png)

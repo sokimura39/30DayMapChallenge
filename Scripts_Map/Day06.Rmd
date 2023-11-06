@@ -1,0 +1,206 @@
+---
+title: "Day06_Asia"
+author: "Soki Kimura"
+date: "2023-11-06"
+output: html_document
+---
+
+## Load Library
+
+```{r}
+
+library(readr)
+library(tidyverse)
+library(janitor)
+library(sf)
+library(showtext)
+source("mapping.R")
+
+font_add_google("B612")
+showtext_auto()
+
+```
+
+## Load Data
+
+```{r}
+
+# load geometry
+# from ArcGIS Hub
+countries <- st_read("../Data/World_Polygons/World_Countries_Generalized/World_Countries_Generalized.shp")
+
+# load passengers data
+# fetched from Wikipedia article "List of the busiest airports in Asia"
+passengers <- read_csv("../Data/Airports/passengers_Wikipedia.csv") %>%
+  clean_names(.) %>%
+  rename(., passengers = total)
+
+# load position
+# source: https://datacatalogfiles.worldbank.org/ddh-published/0038117/DR0046411/airport_volume_airport_locations.csv?versionId=2023-01-19T11:18:11.1423140Z
+airport_csv <- read_csv("../Data/Airports/airport_volume_airport_locations.csv") %>%
+  clean_names(.) 
+
+# join data by IATA Code
+airport_data <- passengers %>%
+  left_join(
+    .,
+    airport_csv,
+    by = c("iata_code" = "orig")
+  )
+
+airport_geom <- airport_data %>%
+  st_as_sf(
+    .,
+    coords = c(x = "airport1longitude", y = "airport1latitude"),
+    crs = 4326
+  )
+
+```
+
+## Plot Map
+
+```{r}
+
+# metadata
+day = 6
+theme = "Asia"
+map_title = "The 50 Busiest Airports in Asia"
+map_subtitle = "Location and Annual Passengers"
+sources = "Wikipedia, World Bank"
+
+# legend title
+breaks = c(25000000, 50000000, 75000000, 100000000)
+labels = c("25 million", "50 million", "75 million", "100 million")
+
+# set bounding box
+bbox <- airport_geom %>%
+  st_bbox(.) %>%
+  square_bbox(.)
+
+
+# ggplot
+plot <- 
+  ggplot(airport_geom) +
+
+  # Mapping the geometry
+  geom_sf(
+    data = countries,
+    fill = "white",
+    col = "gray80",
+  ) +
+  
+  # Mapping the airports
+  geom_sf(
+    data = airport_geom,
+    aes(
+      size = passengers,
+      fill = passengers
+    ),
+    color = "white",
+    pch = 21
+  ) + 
+  
+  geom_sf_label(
+    data = head(airport_geom, 5),
+    aes(
+      label = paste(rank, ": ", iata_code),
+      geometry = geometry,
+      fontface = "bold"
+    ),
+    size = 6,
+    family = "B612",
+    color = "gray20",
+    nudge_y = 2
+  ) +
+
+  # set titles
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    color = "Category",
+    x = NULL,
+    y = NULL
+  ) +
+  
+  #set limits
+  lims(
+    x = c(bbox[1], bbox[3]),
+    y = c(bbox[2], bbox[4])
+  ) +
+  
+  # set legend
+  scale_fill_continuous(
+    name = "Passengers per year",
+    breaks = breaks,
+    labels = labels,
+  ) +
+  scale_size_continuous(
+    name = "Passengers per year",
+    breaks = breaks,
+    labels = labels,
+    range = c(2,10)
+  ) +
+  guides(
+    fill = guide_legend(),
+    size = guide_legend()
+  ) +
+
+  theme(
+    text = element_text(
+      family = "B612",
+      size = 30,
+      color = "gray10",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 50,
+      hjust = 0.03,
+      vjust = -25,
+    ),
+    plot.subtitle = element_text(
+      size = 35,
+      vjust = -40,
+      hjust= 0.03
+    ),
+    plot.caption = element_text(
+      size = 30,
+      vjust = 15,
+      hjust = 0.05
+    ),
+    plot.title.position = "panel",
+    plot.caption.position = "panel",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0.02,0.85),
+    plot.background = element_rect(
+      fill = "azure",
+      color = NA,
+    ),
+    plot.margin = margin(t = -70, r = -30, b = -20, l = -30, unit = "pt"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0.05,0.1),
+    legend.justification = c("left", "bottom"),
+  )
+
+  ggsave(
+  "../Maps/Day06.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+  
+
+
+
+```
+
+
+
+
