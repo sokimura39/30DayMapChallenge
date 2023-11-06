@@ -29,6 +29,13 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ![Airports in Asia](maps/Day06.png)
 
+When I think about Asia, what comes to my mind are the huge airports competing against each other for size, efficiency, and the status as the world hub.  
+I have mapped the 50 largest airport by annual passengers, with labeling the top 5.  
+Dealing with text using ggplot2 is still difficult for me.  
+
+I sourced Wikipedia since no others came handy, but felt like I was betraying all my past teachers! Sorry prof!
+
+Sources: Wikipedia, World Bank
 
 
 ### Day 5: Analog Map
