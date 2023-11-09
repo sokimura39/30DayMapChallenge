@@ -1,0 +1,167 @@
+---
+title: "Day08 - Africa"
+author: "Soki Kimura"
+date: "2023-11-08"
+output: html_document
+---
+
+## Load packages
+
+```{r}
+
+library(tidyverse)
+library(sf)
+library(viridis)
+library(showtext)
+
+```
+
+## Load data
+
+```{r}
+
+countries <- st_read("../Data/World_Polygons/Africa/Africa_Boundaries.shp") %>%
+  st_make_valid(.)
+cities <- st_read("../Data/World_Cities/World_Cities.shp")
+
+```
+
+## Extract cities
+
+```{r}
+
+# extract African Cities
+african_cities <- 
+  st_filter(cities, countries, .predicate = st_intersects) %>%
+  dplyr::filter(
+    .,
+    POP > 100000
+  )
+
+```
+
+## Map
+
+```{r}
+
+# metadata
+day = 8
+theme = "Africa"
+map_title = "African Cities"
+map_subtitle = "African Cities by Population"
+sources = "ESRI ArcGIS Hub"
+breaks = c(100000, 250000, 500000, 1000000, 5000000)
+labels = c("100,000", "250,000", "500,000", "1,000,000", "5,000,000")
+
+# fonts
+font_add_google("Raleway")
+showtext_auto()
+
+# ggplot
+
+plot <- 
+  ggplot() +
+  
+  # mapping countries
+  geom_sf(
+    data = countries,
+    fill = "gray20",
+    col = "white"
+  ) + 
+  
+  # mapping cities
+  geom_sf(
+    data = african_cities,
+    aes(
+      size = POP,
+      fill = POP
+    ),
+    # circle with white border
+    pch = 21,
+    color = "white"
+  ) + 
+  
+  # setting labels
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    color = "Category",
+    x = NULL,
+    y = NULL
+  ) +
+  
+  # set legend
+  scale_fill_viridis(
+    name = "Population",
+    breaks = breaks,
+    labels = labels,
+    option = "magma",
+    trans = "log"
+  ) +
+  scale_size_continuous(
+    name = "Population",
+    breaks = breaks,
+    labels = labels,
+    range = c(2,10)
+  ) +
+  guides(
+    fill = guide_legend(),
+    size = guide_legend()
+  ) +
+
+  theme(
+    text = element_text(
+      family = "Raleway",
+      size = 30,
+      color = "white",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 50,
+      hjust = 0,
+      vjust = -1.5
+    ),
+    plot.subtitle = element_text(
+      size = 35,
+      hjust= 0,
+      vjust = -3
+    ),
+    plot.caption = element_text(
+      size = 30,
+      hjust = 1
+    ),
+    plot.title.position = "panel",
+    plot.caption.position = "panel",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0,1),
+    plot.background = element_rect(
+      fill = "gray10",
+      color = NA,
+    ),
+    # plot.margin = margin(t = -50, r = -20, b = -20, l = -20, unit = "pt"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0.05,0.1),
+    legend.justification = c("left", "bottom"),
+    legend.background = element_blank()
+  )
+
+  ggsave(
+  "../Maps/Day08.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+  
+
+```
+
+
+

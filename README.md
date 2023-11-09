@@ -25,6 +25,17 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 8: Africa
+
+![African Cities by Population](Maps/Day08.png)
+
+I have never engaged with African Geospatial Data before, so I tried mapping the population of major African cities.  
+ArcGIS Hub does have a lot of data, which is appreciated a lot!
+
+Now that I have a full week of mapping code ready, it is starting to get easier to create maps using the data I already have. Now this is reproducibility!
+
+Sources: ArcGIS Hub
+
 ### Day 7: Navigation
 
 ![Cycle Navigation](Maps/Day07.png)
