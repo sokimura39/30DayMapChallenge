@@ -1,0 +1,155 @@
+---
+title: "Day09 - Hexagons"
+author: "Soki Kimura"
+date: "2023-11-09"
+output: html_document
+---
+
+## Load libraries
+
+```{r}
+library(tidyverse)
+library(sf)
+library(viridis)
+library(showtext)
+library(readr)
+```
+
+## Load data
+
+```{r}
+
+# Load data
+
+# Load AirBNB Listings
+# source: http://data.insideairbnb.com/united-kingdom/england/london/2023-09-06/visualisations/listings.csv
+listings <- read_csv("http://data.insideairbnb.com/united-kingdom/england/london/2023-09-06/visualisations/listings.csv")
+
+hexagons <- st_read("../Data/London_polygons/shp-hexagon-files/gla-canopy-hex.shp")
+
+```
+
+## Join Data
+
+```{r}
+
+# convert into geometry
+list_geom <- listings %>%
+  st_as_sf(
+    .,
+    coords = c("longitude", "latitude"),
+    crs = 4326
+  ) %>%
+  st_transform(., 27700)
+
+list_hex <- hexagons %>%
+  st_join(., list_geom, .predicate = st_intersects) %>%
+  group_by(., hex_id) %>%
+  summarize(., "bnbs" = n())
+
+# save data for reproductivity
+# st_write(
+#   list_hex,
+#   dsn = "../Data/AirBNB/hexagons.shp"
+# )
+
+```
+
+## map data
+
+```{r}
+
+# metadata
+day = 9
+theme = "Hexagons"
+map_title = "AirBNBs in London"
+map_subtitle = "Number of AirBNBs in London"
+sources = "Inside AirBNB"
+font = "Manrope"
+
+# fonts
+font_add_google(font)
+showtext_auto()
+
+# ggplot
+
+plot <- 
+  ggplot() +
+  
+  # mapping the grid
+  geom_sf(
+    data = list_hex,
+    aes(fill = bnbs),
+    col = NA
+  ) + 
+
+  # setting labels
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    color = "Category",
+    x = NULL,
+    y = NULL
+  ) +
+  
+  # set legend
+  scale_fill_viridis(
+    name = "Number of AirBNBs",
+    option = "inferno"
+  ) +
+
+  theme(
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "white",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 60,
+      hjust = 0,
+      vjust = -2
+    ),
+    plot.subtitle = element_text(
+      size = 40,
+      hjust= 0,
+      vjust = -3.5
+    ),
+    plot.caption = element_text(
+      size = 30,
+      hjust = 1
+    ),
+    plot.title.position = "panel",
+    plot.caption.position = "panel",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0,1),
+    plot.background = element_rect(
+      fill = "gray10",
+      color = NA,
+    ),
+    # plot.margin = margin(t = -50, r = -20, b = -20, l = -20, unit = "pt"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0.05,0.1),
+    legend.justification = c("left", "bottom"),
+    legend.background = element_blank()
+  )
+
+  ggsave(
+  "../Maps/Day09.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+  
+
+```
+
+

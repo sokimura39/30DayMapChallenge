@@ -25,6 +25,20 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 9: Hexagons
+![AirBNBs in London](Maps/Day09.png)
+
+Analysis using hexagons is totally new to me. When I was doing my undergraduate in Japan, the only grids we used were the square ones.  
+As explained [here](https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-statistics/h-whyhexagons.htm) there seems to be advantages, so I decided to give a shot.  
+
+I mapped the number of AirBNBs in each hexagonal grid of 350 meters across.
+Did some basic spatial joins, but did not expect over 200 listings in a single cell!  
+
+Just having a dark background makes the maps a lot cooler, but my interest toward graphic design makes me want to make cool maps using a lighter theme....
+
+Sources: London Datastore, AirBNB
+
+
 ### Day 8: Africa
 
 ![African Cities by Population](Maps/Day08.png)
