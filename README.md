@@ -25,6 +25,20 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 7: Navigation
+
+![Cycle Navigation](Maps/Day07.png)
+
+Wayfinding was always my interest, and this seemed like a perfect time to try!  
+I have created my version of the [Legible London](https://tfl.gov.uk/info-for/boroughs-and-communities/legible-london) signs with a focus on cycle maps!  
+
+I have made this map with QGIS for the first time in this challenge. (No codes today!)
+After a week of tackling data with R, I now really appreciate the GUI of QGIS.  
+(Even simple things like rotating views was hard to figure out in R.)  
+I also tried a new basemap: Carto tiles!
+
+Sources: TfL, CartoDB
+
 ### Day 6: Asia
 
 ![Airports in Asia](Maps/Day06.png)
