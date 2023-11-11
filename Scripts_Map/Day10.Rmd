@@ -1,0 +1,161 @@
+---
+title: "Day10 - North America"
+author: "Soki Kimura"
+date: "2023-11-10"
+output: html_document
+---
+
+## Load libraries
+
+```{r}
+
+library(sf)
+library(tidyverse)
+library(showtext)
+source("mapping.R")
+
+```
+
+## Load data
+
+```{r}
+
+boroughs <- st_read("../Data/NYC/Borough_Boundaries/geo_export_eae8610d-bb3e-4859-9ad6-22aed7a8028b.shp") %>%
+  filter(., boro_name == "Manhattan")
+
+streets <- st_read("../Data/NYC/Street_Centerline/geo_export_de75f6d2-ed8d-4045-b36a-08aa3565cb28.shp")
+
+streets_m <- streets %>%
+  filter(., borocode == 1 & trafdir != "NV" & trafdir != "NA") %>%
+  mutate(., traffic = case_when(trafdir == "TW" ~ "Two Way", TRUE ~ "One Way"))
+
+```
+
+## Map
+
+```{r}
+
+# metadata
+day = 10
+theme = "North America"
+map_title = "Direction of Traffic in Manhattan, NY"
+map_subtitle = "Roads in Manhattan colored by their direction of traffic"
+sources = "NYC Open Data"
+font = "Manrope"
+
+# fonts
+font_add_google(font)
+showtext_auto()
+
+# set bounding box
+bbox <- streets_m %>%
+  st_bbox(.) %>%
+  square_bbox(.)
+
+
+# ggplot
+plot <- 
+  ggplot(data = streets_m) +
+  
+  # map boroughs
+  geom_sf(
+    data = boroughs,
+    color = NA,
+    fill = "gray20"
+  ) + 
+  
+  # map streets
+  geom_sf(
+    data = streets_m,
+    aes(color = traffic, linewidth = traffic)
+  ) +
+  
+  # setting labels
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    color = "Category",
+    x = NULL,
+    y = NULL
+  ) +
+  
+  # set legend
+  scale_color_manual(
+    name = "Traffic Direction",
+    values = c("One Way" = "white", "Two Way" = "red"),
+    labels = c("One Way Road", "Two Way Road")
+  ) +
+  
+  scale_linewidth_manual(
+    name = "Traffic Direction",
+    values = c("One Way" = 0.2, "Two Way" = 0.4),
+    labels = c("One Way Road", "Two Way Road")
+  ) +
+  
+  guides(
+    color = guide_legend(),
+    linewidth = guide_legend()
+  ) +
+  
+  #set limits
+  lims(
+    x = c(bbox[1], bbox[3]),
+    y = c(bbox[2], bbox[4])
+  ) +
+
+  theme(
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "white",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 60,
+      hjust = 0,
+      vjust = -2
+    ),
+    plot.subtitle = element_text(
+      size = 40,
+      hjust= 0,
+      vjust = -3.5
+    ),
+    plot.caption = element_text(
+      size = 30,
+      hjust = 1
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0,1),
+    plot.background = element_rect(
+      fill = "gray10",
+      color = NA,
+    ),
+    # plot.margin = margin(t = -50, r = -20, b = -20, l = -20, unit = "pt"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0.95,0.1),
+    legend.justification = c("right", "bottom"),
+    legend.background = element_blank(),
+    legend.key = element_blank()
+  )
+
+ggsave(
+  "../Maps/Day10.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+
+```
+
+
+

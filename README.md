@@ -25,6 +25,18 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 10: North America
+![Traffic Direction in NYC](Maps/Day10.png)
+
+When I was in elementary school, I used to live in Westchester County just north of New York City. Back then I didn't know about this field of GIS or geography (well I did spend some time playing SimCity, if that counts), so I decided to revisit New York with a geospatial lens!
+
+The grid in Manhattan is famous for its one-way throughfare, and I mapped the rare exceptions that did carry both ways of traffic. (Yes I did not drive back then as well.)
+
+Seems like NYC has a decent set of open geospatial data to explore...
+
+Sources: NYC Open Data
+
+
 ### Day 9: Hexagons
 ![AirBNBs in London](Maps/Day09.png)
 
