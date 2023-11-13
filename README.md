@@ -25,6 +25,19 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 12: South America
+![Precipitation in South America](Maps/Day12.png)
+
+South America is the continent that observes the highest annual precipitation. This is a map of where the precipitation occurs in this area.  
+
+I was quite surprised to see two things from the map I made:
+1. The continent does rain a lot. Even the light-colored areas see around 2,000 mm of precipitation per year, which is almost triple of that of the UK. (Japan has an average of 1,700 mm which is still a lot, but the continent as a whole having this much is impressive.)
+2. The extremes are really extreme. Although I was prepared when  [Wikipedia](https://en.wikipedia.org/wiki/List_of_countries_by_average_annual_precipitation) told me Colombia has an average of 3,200 mm, I did not expect over 7,000 mm in certain areas. I also expected the highest point will be somewhere in the Amazon!  
+
+It is Day 12 already, and noticed I was not using raster data at all! For me this is a practice making use of raster data as well. I'm unsure whether tidyterra is the way to go, but at least it worked for me.  
+
+Source: WorldClim
+
 ### Day 11: Retro
 ![London Bus Routes Retro Version](Maps/Day11.png)
 
