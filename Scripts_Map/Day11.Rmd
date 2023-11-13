@@ -1,0 +1,133 @@
+---
+title: "Day11_Retro"
+author: "Soki Kimura"
+date: "2023-11-02"
+output: html_document
+---
+
+# A retro map
+
+Reused the map for day 2: lines and added a retro taste.
+
+
+```{r}
+library(sf)
+library(janitor)
+library(dplyr)
+library(tmap)
+library(tmaptools)
+library(showtext)
+library(rmapshaper)
+source("mapping.R")
+
+
+```
+
+
+# Load data
+
+```{r}
+# load bus
+bus_route <- st_read("../Data/Bus/Data/bus_routes.geojson") %>%
+  st_transform(., 27700)
+
+# load London Boroughs
+boroughs <- st_read("../Data/London_polygons/London_Boroughs.gpkg") %>%
+  st_transform(., 27700)
+
+# load River Thames
+thames <- st_read("../Data/London_polygons/River_Thames_simplified.gpkg") %>%
+  st_transform(., 27700)
+
+# simplify River
+thames_simple <- thames %>%
+  simplify_shape(., fact = 0.5)
+
+# simplify buses
+bus_route_simple <- bus_route %>%
+  simplify_shape(., fact = 0.1)
+
+```
+
+# set bounding box to square
+
+```{r}
+
+box <- st_bbox(bus_route) %>%
+  square_bbox(., 1.1) %>%
+  move_bbox(., 0, 0.05)
+
+```
+
+# Draw map
+
+```{r}
+
+day = 11
+theme = "Retro"
+map_title = "Bus Routes in Greater London - Retro Version"
+sources = "London Datastore, Transport for London Unified API"
+
+exp_line1 = "Transport for London Bus Routes"
+exp_line2 = ""
+
+font= "BAUMANS"
+font_add_google(font)
+showtext_auto()
+
+map <-
+tm_shape(boroughs, bbox = box) +
+  tm_fill(col = "#E4DCCF") +
+  tm_borders(col = "#F9F5EB", lwd = 3) +
+  tm_shape(thames_simple, ) +
+  tm_fill(col = "#BAD7E9") +
+  tm_borders(col = "#F9F5EB", lwd = 1) +
+  
+  # bus routes
+  tm_shape(bus_route) + 
+
+  # change line color
+  tm_lines(col = "#EA5445",
+           alpha = 0.5,
+           lwd = 1.2) +
+  
+  
+  tm_credits(exp_line1,
+             col = "#002B5B",
+             size = 3,
+             position = c(0,0.78),
+             just = 0) +
+  tm_credits(exp_line2,
+             col = "#002B5B",
+             size = 3,
+             position = c(0,0.74),
+             just = 0) +
+  tm_credits(paste("#30DayMapChallenge Day ", day, " - ",theme),
+             col = "#002B5B",
+             size = 2,
+             position = c(0,1),
+             just = c(0,1)) +
+  tm_compass(type="rose",
+             show.labels = FALSE,
+             color.dark = "#002B5B",
+             size = 6,
+             position = c(0,0.07),) +
+  tm_credits(paste("Sources:", sources, sep = " "), 
+             col = "#002B5B",
+             size = 2,
+             position = c(0,0)) + 
+  tm_layout(bg.color = "#F9F5EB",
+            scale = 1,
+            frame = FALSE,
+            # legend.show = FALSE,
+            fontfamily = font,
+            title = map_title,
+            title.color = "#002B5B",
+            title.size = 5,
+            title.position = c(0.02,0.90),)
+  
+tmap_save(map,filename = "../Maps/Day11.png")
+
+```
+
+

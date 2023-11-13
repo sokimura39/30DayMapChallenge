@@ -25,6 +25,17 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 11: Retro
+![London Bus Routes Retro Version](Maps/Day11.png)
+
+For retro, I remade the map I made in Day 2: with aesthetics in retro style.  
+That is to say, I just changed the colors and the font from what I did earlier.  
+
+Which, still makes a big difference!  
+Doing things completely in code makes these adjustments so easy; I don't want to imagine if I had a more complex map to change the aesthetics...
+
+Sources: TfL Unified API, London Datastore
+
 ### Day 10: North America
 ![Traffic Direction in NYC](Maps/Day10.png)
 
