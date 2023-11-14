@@ -25,6 +25,22 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 13: Choropleth
+![Tri-variant Choropleth of disasters, precipitation and GDP](Maps/Day13.png)
+
+Choropleths are the most basic of maps, and now they're starting to get bivariate.  
+How about a trivariate map?
+
+I mapped each country's GDP, annual precipitation and the occurances of hydrological disasters per area. (The latter two might have made a better map, but I wanted to give it a shot.)
+It was too difficult to code the whole thing; data-wrangling in R and edited on QGIS.
+
+The data for the disasters are acquired from [EM-DAT](https://www.emdat.be/), an international database for disasters worldwide. They have data for all sorts of disasters, and I decided to filter with hydrological ones, which I expected a correlation with precipitation. I have counted on a country-basis and standardised it by the area.
+
+From the map, I was suprised you can actually sort of see the green areas with high precipitation, the yellow countries with high GDPs, the purple (relatively small) countries having a lot of disasters.
+The correlations are difficult to make out, but comparing Europe and Asia, there seems to be a different trend already.
+
+Source: World Bank, EM-DAT.
+
 ### Day 12: South America
 ![Precipitation in South America](Maps/Day12.png)
 

@@ -1,0 +1,96 @@
+---
+title: "Day13 - Choropleth"
+author: "Soki Kimura"
+date: "2023-11-14"
+output: html_document
+---
+
+## Load libraries
+
+```{r}
+
+library(sf)
+library(tidyverse)
+library(readr)
+library(janitor)
+library(countrycode)
+library(classInt)
+library(showtext)
+
+```
+
+## Load data
+
+```{r}
+
+# GDP data from World Bank
+gdp <- read_csv("../Data/GDP/GDP_WB.csv", skip = 4) %>%
+  clean_names(.) %>%
+  select(., "country_name", "country_code", "x2020") %>%
+  rename(., gdp_2020 = x2020)
+
+# Hydrological Disasters from EM-DAT
+disasters <- read_csv("../Data/Disasters/Hydrological_Disasters.csv") %>%
+  clean_names(.)
+
+# Precipitation data from World Bank
+prec <- read_csv(
+  "../Data/World_Climate/precipitation_wb/precipitation.csv", skip = 4
+) %>%
+  clean_names(.) %>%
+  select(., "country_name", "country_code", "x2020") %>%
+  rename(., prec_2020 = x2020)
+
+# World Countries Polygon
+countries <- st_read("../Data/World_Polygons/World_Countries_Generalized") %>%
+  clean_names(.)
+
+
+```
+
+## Data Manipulation
+
+```{r}
+
+# summarise disasters
+
+disasters_sum <- disasters %>%
+  group_by(iso, country) %>%
+  summarise(., disasters = n())
+
+# join data
+countries_data <- countries %>%
+  
+  # create iso3c code
+  mutate(., iso3 = countrycode(iso, "iso2c", "iso3c"), .before = iso) %>%
+  
+  # join GDP, precipitation, and disasters
+  left_join(., gdp, by = c("iso3" = "country_code")) %>%
+  left_join(., prec, by = c("iso3" = "country_code")) %>%
+  left_join(., disasters_sum, by = c("iso3" = "iso")) %>%
+  select(
+    .,
+    "country.x", "iso3", "shape_area", "gdp_2020", 
+    "prec_2020", "disasters", "geometry"
+  ) %>%
+  mutate(dis_s = disasters / shape_area) %>%
+  
+  # class
+  mutate(gdp_class = findCols(classIntervals(gdp_2020, 3, style = "quantile"))) %>%
+  mutate(prec_class = findCols(classIntervals(prec_2020, 3, style = "quantile"))) %>%
+  mutate(dis_class = findCols(classIntervals(dis_s, 3, style = "quantile"))) %>%
+  mutate(classes = paste(
+    case_when(gdp_class == 1 ~ "C", gdp_class == 2 ~ "B", gdp_class == 3 ~ "A", TRUE ~ "X"),
+    case_when(prec_class == 1 ~ "C", prec_class == 2 ~ "B", prec_class == 3 ~ "A", TRUE ~ "X"),
+    case_when(dis_class == 1 ~ "C", dis_class == 2 ~ "B", dis_class == 3 ~ "A", TRUE ~ "X"),
+    sep = ""
+  ))
+
+# save file
+st_write(countries_data, "../Data/World_Climate/disasters_standardised.gpkg")
+
+
+```
+## Mapping
+
+Today, I used QGIS and some graphic software: trying to code my map was too much of a pain.
