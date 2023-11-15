@@ -1,0 +1,174 @@
+---
+title: "Day14_Europe"
+author: "Soki Kimura"
+date: "2023-11-14"
+output: html_document
+---
+
+# Load data
+
+```{r}
+
+library(sf)
+library(tidyverse)
+library(readr)
+library(showtext)
+library(viridis)
+library(rayshader)
+
+source("mapping.R")
+
+# load London Boroughs
+boroughs <- st_read("../Data/London_polygons/London_Boroughs.gpkg") %>%
+  st_transform(., 27700)
+
+# load River Thames
+thames <- st_read("../Data/London_polygons/River_Thames_simplified.gpkg") %>%
+  st_transform(., 27700)
+
+# load fire data
+# source https://data.london.gov.uk/dataset/lfb-fires-in-london-1966-2019---fire-facts
+fires <- read_csv("../Data/Fire/Fires_by_Borough.csv") %>%
+  select(., "Borough", "2022") %>%
+  rename(., fire = "2022")
+```
+
+# join data
+
+```{r}
+
+borough_fire <- boroughs %>%
+  left_join(., fires,
+            by = c("name" = "Borough")) %>%
+  mutate(., fire_per_km2 = fire / hectares * 100)
+
+```
+
+# map data
+
+```{r}
+
+
+box <- st_bbox(borough_fire) %>%
+  square_bbox(., 1) %>%
+  move_bbox(., 0, -0.1)
+
+# metadata
+day = 14
+theme = "Europe"
+map_title = expression("Fires in London Boroughs in 2022 per km"^2)
+map_subtitle = expression("Number of Fires in 2022 in Each Borough per km"^2)
+sources = "London Data Store"
+
+# fonts
+
+font = "sans"
+
+# rayshader seems to dislike showtext()
+# font = "Fira Sans"
+# font_add_google(font)
+# showtext_auto()
+
+
+# ggplot
+plot <- 
+  ggplot(data = borough_fire) +
+  
+  # map boroughs
+  geom_sf(
+    data = borough_fire,
+    aes(fill = fire_per_km2),
+    color = NA
+  ) + 
+  
+  # setting labels
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    color = "Category",
+    x = NULL,
+    y = NULL
+  ) +
+  
+  # set legend
+  scale_fill_viridis(
+    name = expression("Fires per km"^2),
+    option = "inferno",
+  ) +
+  
+  #set limits
+  coord_sf(
+    xlim = c(box[1], box[3]),
+    ylim = c(box[2], box[4])
+  ) +
+
+  theme(
+    text = element_text(
+      family = font,
+      size = 10,
+      color = "gray20",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 20,
+      hjust = 0,
+      vjust = -2
+    ),
+    plot.subtitle = element_text(
+      size = 15,
+      hjust= 0,
+      vjust = -3.5
+    ),
+    plot.caption = element_text(
+      size = 10,
+      hjust = 1
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 10,
+      hjust = 0
+    ),
+    plot.tag.position = c(0,1),
+    plot.background = element_rect(
+      fill = "ghostwhite",
+      color = NA,
+    ),
+    # plot.margin = margin(t = -50, r = -20, b = -20, l = -20, unit = "pt"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0.95,0.1),
+    legend.justification = c("right", "bottom"),
+    legend.background = element_blank(),
+    legend.key = element_blank()
+  )
+
+# save flat file if needed
+# ggsave(
+#   "../Maps/Day14_flat.png",
+#   plot = plot,
+#   width = 7,
+#   height = 7
+# )
+
+```
+
+## make 3D
+
+```{r}
+
+# rayshader
+plot_gg(plot, width = 7, height = 7, multicore = TRUE, scale = 250, 
+        zoom = 0.7, theta = 10, phi = 40, windowsize = c(800, 800), 
+        shadow = FALSE, max_error = 0.1, offset_edges = TRUE)
+
+render_snapshot("../Maps/Day14.png", software_render = TRUE, 
+                width = 2100, height = 2100)
+
+```
+
+

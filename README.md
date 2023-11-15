@@ -25,6 +25,18 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 14: Europe
+![Fires in London Boroughs in 2022](Maps/Day14.png)
+
+Europe. I probably should have mapped something more European, but the fire alarm that rang last Sunday night was so irritating I decided to search how often this kind of event occurs.  
+
+Found a data on London Data Store on fires by borough, mapping it, voila!  
+......would have been too easy.
+I wanted to try the 3D rendering made available by the Rayshader package.
+
+Today's map is my first 3D version, featuring my home borough of Camden successfully hiding itself behind the fire-filled City of Westminster. Okay, at least it's good to know I don't need to expect too many weekend evenings disturbed!
+
+
 ### Day 13: Choropleth
 ![Tri-variant Choropleth of disasters, precipitation and GDP](Maps/Day13.png)
 
