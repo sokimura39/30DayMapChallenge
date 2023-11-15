@@ -164,7 +164,7 @@ plot <-
 # rayshader
 plot_gg(plot, width = 7, height = 7, multicore = TRUE, scale = 250, 
         zoom = 0.7, theta = 10, phi = 40, windowsize = c(800, 800), 
-        shadow = FALSE, max_error = 0.1, offset_edges = TRUE)
+        shadow = FALSE, max_error = 0.01, offset_edges = 0.5)
 
 render_snapshot("../Maps/Day14.png", software_render = TRUE, 
                 width = 2100, height = 2100)
