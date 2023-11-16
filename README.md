@@ -25,6 +25,22 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 16: Oceania
+![Average Temperature in Oceania](Maps/Day16.png)
+
+The first day of the second half: Oceania! This was a difficult area to map.
+
+I ended up with a simple map of the annual average temperature in Australia, hence I couldn't quite manage to do the following:
+- Precisely extract all the countries and territories that are recognized as "Oceania"
+- Find a way to map areas too small if you just mapped the rasters
+- Find a nice way to center around the International Date Line, not the Prime Meridian
+
+I couldn't manage to change the font for the labels, which is very annoying.
+
+Still, it's interesting to find how cold Australia actually is. My northern hemisphere self refuses to recognize that a country in the south is much colder than where I come from.
+
+Sources: WorldClim, ArcHub
+
 ### Day 15: OpenStreetMap
 ![Surveillance Camera Clusters in London](Maps/Day15.png)
 

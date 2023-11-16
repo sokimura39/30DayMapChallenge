@@ -1,0 +1,174 @@
+---
+title: "Day16 - Oceania"
+author: "Soki Kimura"
+date: "2023-11-13"
+output: html_document
+---
+
+# Mapping Annual Temperature in Australia
+
+## Load libraries
+
+```{r}
+
+library(terra)
+library(tidyterra)
+library(sf)
+library(tidyverse)
+library(viridis)
+library(showtext)
+library(countrycode)
+library(ggrepel)
+
+```
+
+
+## Load data
+
+```{r}
+
+# Code for Australia
+countries_iso <- c("AU")
+countries_fips <- countrycode(countries_iso, "iso2c", "fips")
+
+
+# Load polygons from ArcHUB
+polygon <- st_read("../Data/World_Polygons/World_Countries_Generalized/World_Countries_Generalized.shp")
+
+# Load Cities from ArcHUB
+cities <- st_read("../Data/World_Cities/World_Cities.shp")
+
+# Load Annual Average Temperature
+# source: https://www.worldclim.org/data/worldclim21.html
+temp <- terra::rast("../Data/World_Climate/wc2.1_5m_bio/wc2.1_5m_bio_1.tif")
+
+```
+
+## Extract Oceanian Data
+
+```{r}
+
+# extract polygons and cities for Oceania
+polygon <- filter(polygon, ISO %in% countries_iso)
+cities <- filter(cities, FIPS_CNTRY %in% countries_fips)
+
+# extract using polygon
+temp_oceania <- temp %>%
+  terra::crop(., polygon) %>%
+  terra::mask(., polygon)
+
+```
+
+## Create Map
+
+```{r}
+
+# metadata
+
+day = 16
+theme = "Oceania"
+map_title = "Average Annual Temperature in Australia"
+map_subtitle = ""
+sources = "WorldClim, ArcHub"
+
+# fonts
+font = "Montserrat Alternates"
+font_add_google(font)
+showtext_auto()
+
+# plot
+plot <- 
+  ggplot(data = temp_oceania) + 
+  
+  # plot
+  geom_spatraster(
+    data = temp_oceania
+  ) +
+  
+  geom_sf(
+    data = cities,
+    shape = 19,
+    color = "midnightblue"
+  ) +
+  
+  geom_text_repel(
+    data = cities,
+    aes(label = CITY_NAME, geometry = geometry),
+    stat= "sf_coordinates",
+    size = 10,
+    color = "midnightblue"
+  ) +
+  
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    color = "Category",
+    x = NULL,
+    y = NULL
+  ) +
+  
+  # set legend
+  scale_fill_viridis(
+    option = "plasma",
+    begin = 1,
+    end = 0.4,
+    name = "Average Annual Temperature",
+    na.value = NA
+  ) +
+
+  theme(
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "midnightblue",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 50,
+      hjust = 0,
+      vjust = -2
+    ),
+    plot.subtitle = element_text(
+      size = 40,
+      hjust= 0,
+      vjust = -3.5
+    ),
+    plot.caption = element_text(
+      size = 30,
+      hjust = 1
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0,1),
+    plot.background = element_rect(
+      fill = "ghostwhite",
+      color = NA,
+    ),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0.05,0.1),
+    legend.justification = c("left", "bottom"),
+    legend.background = element_blank(),
+    legend.key = element_blank()
+  )
+
+ggsave(
+  "../Maps/Day16.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+
+
+
+```
+
+
