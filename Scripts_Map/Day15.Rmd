@@ -1,0 +1,231 @@
+---
+title: "Day15 - OpenStreetMap"
+author: "Soki Kimura"
+date: "2023-11-15"
+output: html_document
+---
+
+# Day 15 - OpenStreetMap
+
+## Load libraries
+
+```{r load libraries}
+
+library(sf)
+library(tidyverse)
+library(showtext)
+library(fpc)
+library(dbscan)
+library(randomcoloR)
+library(OpenStreetMap)
+source("mapping.R")
+
+```
+
+## Load data
+
+```{r}
+
+# read OpenStreetMap Points of Interest Data
+poi <- st_read("../Data/OSM/greater-london-latest-free.shp/gis_osm_pois_free_1.shp")
+
+```
+
+## Analyze data
+
+```{r count pois}
+
+# count POIs
+
+poi_count <- poi %>%
+  group_by(., fclass) %>%
+  summarise(., count = n()) %>%
+  arrange(., count)
+
+```
+
+
+
+```{r}
+
+# extract camera_surveillance
+
+camera_surveillance <- poi %>%
+  filter(., fclass == "camera_surveillance") %>%
+  st_transform(., 27700)
+
+plot(camera_surveillance) 
+
+# DBSCAN
+
+# change into data frame
+df_camera_surveillance <- camera_surveillance %>%
+  st_coordinates(.) %>%
+  as.data.frame(.)
+
+# run 4-NN distance plot
+dbscan::kNNdistplot(df_camera_surveillance, 4)
+
+
+
+```
+
+
+```{r}
+
+# run DBSCAN
+db <- df_camera_surveillance %>%
+  fpc::dbscan(., eps = 700, MinPts = 4)
+
+# plot(db, df_camera_surveillance,  main = "DBSCAN Output", frame = F)
+
+map_plots <- df_camera_surveillance %>%
+  mutate(dbcluster = db$cluster)
+
+unclustered <- map_plots %>%
+  dplyr::filter(., dbcluster == 0)
+
+map_plots <- map_plots %>%
+  dplyr::filter(., dbcluster >= 1) %>%
+  mutate(factor = as.factor(dbcluster))
+
+
+```
+
+## Map using ggplot
+
+```{r}
+
+# metadata
+day = 15
+theme = "OpenStreetMap"
+map_title = "Clusters of Surveillance Cameras in London"
+map_subtitle = "Surveillance Camera Clusters using DBSCAN analysis"
+sources = "OpenStreetMap"
+
+# fonts
+font = "Open Sans" # of course!
+font_add_google(font)
+showtext_auto()
+
+# generate random colors
+color_palette = unname(distinctColorPalette(33))
+
+# get square bounding box
+bbox <- st_bbox(camera_surveillance) %>%
+  square_bbox(., 1.2)
+
+# reproject bbox to WGS84 for OSM
+bbox_wgs84 <- bbox %>%
+  st_as_sfc(.) %>%
+  st_set_crs(., 27700) %>%
+  st_transform(., 4326) %>%
+  st_bbox(.)
+
+# get OSM
+basemap <- openmap(
+  c(bbox_wgs84[4], bbox_wgs84[1]), # upperLeft
+  c(bbox_wgs84[2], bbox_wgs84[3]), # lowerRight
+) %>%
+  
+  # reproject
+  openproj(., projection = "+init=epsg:27700")
+
+
+plot <- 
+  autoplot.OpenStreetMap(basemap) +
+
+  # make basemap thinner
+  annotate(
+    "rect", 
+    xmin = bbox[1], 
+    xmax = bbox[3],
+    ymin = bbox[2],
+    ymax = bbox[4],
+    fill = alpha("white",0.8)
+    ) +
+  
+  # add clustered points
+  geom_point(
+    data = map_plots,
+    aes(x = X, y = Y, color = factor),
+    show.legend = FALSE
+  ) + 
+
+  # add unclustered points
+  geom_point(
+    data = unclustered,
+    aes(x = X, y =Y),
+    shape = 4,
+    color = "gray20",
+    show.legend = FALSE
+  ) +
+  
+  # change color scheme
+  scale_color_manual(
+    values = color_palette
+  ) +
+    
+  # setting labels
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    color = "Category",
+    x = NULL,
+    y = NULL
+  ) +
+  
+  # aesthetics
+  theme(
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "gray10",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 60,
+      hjust = 0.28,
+      vjust = -24,
+      face = "bold"
+    ),
+    plot.subtitle = element_text(
+      size = 35,
+      vjust = -45,
+      hjust= 0.15
+    ),
+    plot.caption = element_text(
+      size = 30,
+      vjust = 19,
+      hjust = 0.1
+    ),
+    plot.title.position = "panel",
+    plot.caption.position = "panel",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0.08,0.85),
+    plot.background = element_rect(
+      fill = "darkolivegreen",
+      color = NA,
+    ),
+    plot.margin = margin(t = -70, r = -30, b = -40, l = -30, unit = "pt"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+  )
+
+
+ggsave(
+  "../Maps/Day15.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+
+```
+

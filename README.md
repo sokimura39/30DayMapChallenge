@@ -25,6 +25,22 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 15: OpenStreetMap
+![Surveillance Camera Clusters in London](Maps/Day15.png)
+
+Halfway through the #30DayMapChallenge !
+
+OpenStreetMap has a lot of points of interests in their data, and I found one that interested me: surveillance cameras. (I personally won't define this as a point of interes, though.)
+Today, I used the DBSCAN analysis to find out whether there are any notable clusters that appear in the London area.
+
+- Central London: Well, everything is clustered here. No surprise.
+- Around Heathrow and the RAF: this makes sense to me as well.
+- Wembley: Is this because of the stadium?
+- Wimbledon: Is this too? Although the tennis courts seem to be apart from the station.
+- Twickenham, Brentford, Wandsworth, and some other neighborhoods in the south: Is there a particular reason?
+
+Please let me know if you have any thoughts!
+
 ### Day 14: Europe
 ![Fires in London Boroughs in 2022](Maps/Day14.png)
 
