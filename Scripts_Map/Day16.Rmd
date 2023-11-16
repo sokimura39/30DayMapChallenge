@@ -31,6 +31,14 @@ library(ggrepel)
 countries_iso <- c("AU")
 countries_fips <- countrycode(countries_iso, "iso2c", "fips")
 
+# the full code for Oceania was:
+# countries_iso <- c("AU", "CX", "CC", "FJ", "PF", "GU", "KI", "MH", "FM", "NR", 
+#                    "NC", "NZ", "NU", "NF", "MP", "PW", "PG", "PN", "WS", "SB", 
+#                    "TK", "TO", "TV", "VU", "WF")
+# I could not find a way to map all these places, 
+# nor a way to include parts of other countries that are considered part of Oceania,
+# such as parts of Indonesia, Hawaii, and some territories"
+
 
 # Load polygons from ArcHUB
 polygon <- st_read("../Data/World_Polygons/World_Countries_Generalized/World_Countries_Generalized.shp")
@@ -56,6 +64,9 @@ cities <- filter(cities, FIPS_CNTRY %in% countries_fips)
 temp_oceania <- temp %>%
   terra::crop(., polygon) %>%
   terra::mask(., polygon)
+
+# Projection centered on the Pacific?
+# EPSG: 8859? 3832?
 
 ```
 
