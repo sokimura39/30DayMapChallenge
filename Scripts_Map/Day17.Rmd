@@ -1,0 +1,208 @@
+---
+title: "Day17_Flow"
+author: "Soki Kimura"
+date: "2023-11-17"
+output: html_document
+---
+
+# Loading Data
+
+```{r}
+library(sf)
+library(janitor)
+library(tidyverse)
+library(viridis)
+library(showtext)
+library(tmap)
+library(tmaptools)
+source("mapping.R")
+
+# load docks
+bike_points <- st_read("../Data/Cycles/Points/BikePoints.geojson") %>%
+  # transform into British National Grid
+  st_transform(., 27700)
+
+# load trips
+trip_data <- st_read("../Data/Cycles/Journeys/journeys_10000.geojson") %>%
+  # transform into British National Grid
+  st_transform(., 27700)
+
+# load boroughs
+boroughs <- st_read("../Data/London_polygons/London_Boroughs.gpkg") %>%
+  st_transform(., 27700)
+
+# load the Thames
+thames <- st_read("../Data/London_polygons/River_Thames_simplified.gpkg") %>%
+  st_transform(., 27700)
+
+```
+# Calculation of distance and speed
+
+```{r}
+# calculate journey distance and speed
+trip_data <- trip_data %>%
+  mutate(distance = as.numeric(st_length(.))) %>%
+  mutate(speed = as.numeric(distance / duration * 1000))
+```
+
+# Map using ggplot
+
+```{r}
+
+# metadata
+day = 17
+theme = "Flow"
+map_title = "The Flow of Santander Cycles"
+map_subtitle = "Map of 10,000 Trips made by the Santander Cycles"
+sources = "TfL Unified API"
+
+# fonts
+font = "Hammersmith One"
+font_add_google(font)
+showtext_auto()
+
+# bounding box
+bbox <- bike_points %>%
+  st_bbox(.) %>%
+  square_bbox(., zoom = 1.1)
+
+plot <- 
+  ggplot() + 
+  
+  # draw boroughs
+  # geom_sf(
+  #   data = boroughs,
+  #   fill = "gray10",
+  #   color = "gray15",
+  #   lwd = 0.5
+  # ) + 
+  
+  # draw the Thames
+  geom_sf(
+    data = thames,
+    fill ="turquoise4",
+    alpha = 0.7,
+    color = NA
+  ) +
+  
+  # draw the stations
+  geom_sf(
+    data = bike_points,
+    shape = 16,
+    color = "white",
+    size = 0.2
+  ) +
+  
+  # draw the trips
+  geom_sf(
+    data = trip_data,
+    aes(color = speed),
+    alpha = 0.2,
+    lwd = 0.15
+  ) + 
+
+  # set titles
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    x = NULL,
+    y = NULL
+  ) +
+  
+  # set limits
+  lims(
+    x = c(bbox[1], bbox[3]),
+    y = c(bbox[2], bbox[4])
+  ) +
+  
+  # set colors
+  scale_color_viridis(
+    option = "turbo",
+    begin = 0.5,
+    end = 0.9,
+    name = "Speed",
+    guide = guide_colorbar(
+      title.position = "top",
+      barwidth = 5,
+      barheight = 0.3,
+      direction = "horizontal",
+      ticks.colour = NA
+    )
+  ) +
+  
+  theme(
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "gray70",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 50,
+      hjust = 0.1,
+      vjust = -2.5,
+      margin = margin(t = 70, r = -100, b = -50, l = 110)
+    ),
+    plot.subtitle = element_text(
+      size = 40,
+      hjust= 0.14,
+      vjust = -2,
+      margin = margin(t = 70, r = -100, b = -50, l = 110)
+    ),
+    plot.caption = element_text(
+      size = 30,
+      hjust = 0.9,
+      margin = margin(t = -40, r = 70, b = 50, l = -60)
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0,
+      margin = margin(t = 50, r = -20, b = -30, l = 30)
+    ),
+    plot.tag.position = c(0,0.95),
+    plot.background = element_rect(
+      fill = "gray10",
+      color = NA,
+    ),
+    plot.margin = margin(t = -50, r = -50, b = -50, l = -50, unit = "pt"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0.05,0.1),
+    legend.justification = c("left", "bottom"),
+    legend.background = element_blank(),
+    legend.key = element_blank(),
+    legend.text = element_blank()
+  )
+
+
+# save file
+ggsave(
+  "../Maps/Day17.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+
+```
+
+
+# Interactive map using tmap
+
+```{r}
+# show map
+tmap_mode("view")
+tm_basemap(server = "OpenStreetMap")
+tm_shape(trip_data) + 
+  tm_lines("speed",
+           lwd = 0.1,
+           style = "fisher",
+           alpha = 0.2)
+
+```
+

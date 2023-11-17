@@ -25,6 +25,21 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 17: Flow
+![Santander Bike Flows](Maps/Day17.png)
+
+For flows, I came back to the dataset that I used for Day 1 of the challenge: Santander Cycles. I really do think I've come very far!
+One of my favorite visualisations is the map with airline routes, and I was thinking I could do something similar! I am so happy I managed to do so.
+
+In addition to the point data that I mapped in day 1, TfL has loads of data for their bike share scheme, including journey details for every journey.
+I have mapped some 10,000 trips made by the Santander Cycles in their latest dataset available, which accounts for roughly 1/3 of a day.
+
+I did some basic analysis to their data today.
+Their journey data did not include any spatial data, only the name and the ID of their start and end points. I joined this with the spatial data with the points to draw the line, and calculated the speed for each trip. 
+I added a [Scripts_Data](https://github.com/sokimura39/30DayMapChallenge/tree/master/Scripts_Data) folder to save the Jupiter Notebook I have worked on for today's (and Day 1's) data wrangling.
+I stopped here today, but am thinking about further analysis on this to see if any interesting data pops out!
+
+
 ### Day 16: Oceania
 ![Average Temperature in Oceania](Maps/Day16.png)
 
