@@ -1,0 +1,219 @@
+---
+title: "Day18 - Atmosphere"
+author: "Soki Kimura"
+date: "2023-11-18"
+output: html_document
+---
+
+# Mapping the seasonality of temperature
+
+## Load libraries
+
+```{r}
+
+library(terra)
+library(tidyterra)
+library(sf)
+library(tidyverse)
+library(viridis)
+library(showtext)
+library(cowplot)
+library(ggridges)
+source("mapping.R")
+
+```
+
+
+## Load data
+
+```{r}
+
+# Load polygons
+polygon <- st_read("../Data/World_Polygons/World_Countries_Generalized/World_Countries_Generalized.shp")
+
+# Load Temperature annual range data
+# source: https://www.worldclim.org/data/worldclim21.html
+prec <- terra::rast("../Data/World_Climate/wc2.1_5m_bio/wc2.1_5m_bio_7.tif")
+
+```
+
+## Extract
+
+```{r}
+
+# extract polygons
+prec_exact <- prec %>%
+  terra::crop(., polygon) %>%
+  terra::mask(., polygon)
+
+# make density
+prec_df <- prec_exact %>%
+  as.data.frame(.)
+
+
+```
+
+## Create Map
+
+```{r}
+
+# metadata
+
+day = 18
+theme = "Atmosphere"
+map_title = "The Temperature Annual Range"
+map_subtitle = "The world mapped with the range of temperature throughout the year"
+sources = "WorldClim"
+
+# fonts
+font= "Windsong"
+font_add_google(font)
+showtext_auto()
+
+# plot
+p2 <- 
+  ggplot(data = prec_exact) + 
+  
+  # plot
+  geom_spatraster(
+    data = prec_exact,
+    show.legend = FALSE
+  ) +
+  
+  # labels
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    color = "Category",
+    x = NULL,
+    y = NULL
+  ) +
+  
+  # set legend
+  scale_fill_viridis(
+    option = "viridis",
+    limits = c(-10, 80),
+    name = "Temperature Range",
+    na.value = NA,
+  ) +
+  
+  # set limits
+  lims(
+    x = c(-180, 180),
+    y = c(-150, 100)
+  ) +
+
+  # set theme
+  theme(
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "white",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 60,
+      hjust = 0,
+      vjust = -8,
+      margin = margin(t = 20)
+    ),
+    plot.subtitle = element_text(
+      size = 40,
+      hjust= 0,
+      vjust = -11,
+      margin = margin(t = 20)
+    ),
+    plot.caption = element_text(
+      size = 30,
+      hjust = 1
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0,1),
+    plot.background = element_rect(
+      fill = "gray10",
+      color = NA,
+    ),
+    # plot.margin = margin(t = -50, r = -20, b = -20, l = -20, unit = "pt"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0.05,0.1),
+    legend.justification = c("left", "bottom"),
+    legend.background = element_blank(),
+    legend.key = element_blank()
+  )
+
+# draw legend
+p1 <- 
+  ggplot() +
+  # geom_density(
+  #   aes(x = wc2.1_5m_bio_7)
+  # ) + 
+  
+  geom_density_ridges_gradient(
+    data = prec_df,
+    aes(x = wc2.1_5m_bio_7, y = "", fill = stat(x), scale = 300),
+    color = NA,
+    show.legend = FALSE
+  ) +
+  
+  coord_fixed(ratio = 1) +
+  
+  # set color
+  scale_fill_viridis_c(
+    name = "Temperature Range",
+    option = "viridis",
+    limits = c(-10, 80)
+  ) +
+  
+  # set labels
+  labs(
+    title = "Temperature Range (Celcius)",
+    x = NULL,
+    y = NULL
+  ) +
+  theme(
+    panel.grid = element_blank(),
+    panel.background = element_blank(),
+    plot.background = element_blank(),
+    axis.text = element_text(
+      family = font,
+      size = 30,
+      color = "white",
+      lineheight = 0.5
+    ),
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "white",
+      lineheight = 0.5
+    )
+  )
+
+# combine plots
+plot <- 
+  ggdraw() +
+  draw_plot(p2) +
+  draw_plot(p1, x = 0, y = 0, width = 0.5, height = 0.3)
+
+ggsave(
+  "../Maps/Day18.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+
+
+
+```
+
+
+
