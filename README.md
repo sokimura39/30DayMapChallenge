@@ -30,7 +30,7 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 Atmosphere: I mapped the temperature range showing the annual temperature difference between the maximum and minimum.
 
-Today's significance for me is creating a "legendgram", although this is just an inset density plot using the same dataset and coloring. Does this help understand the context better?
+Today's significance for me is creating a "legendgram", although this is just an inset density plot using the same dataset and coloring. Does this help understand the whole picture better?
 
 ### Day 17: Flow
 ![Santander Bike Flows](Maps/Day17.png)
