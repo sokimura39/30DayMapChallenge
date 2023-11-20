@@ -25,6 +25,14 @@ Through the #30DayMapChallenge I want to: - be more familiar with R and python t
 
 ## The Maps
 
+### Day 19: 5-minute map
+![London Transport Networks](Maps/Day19.png)
+
+London road and rail networks, filtered the main ones, plotted on QGIS, period.
+It took 6 minutes and 24 seconds. I took too much time tweaking the aesthetics.
+
+I'm not going to spend more time explaining the map than making it, but I am truly surprised you can make a decent map in this limited amount of time!
+
 ### Day 18: Atmosphere
 ![Temperature Range](Maps/Day18.png)
 
