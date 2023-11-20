@@ -21,7 +21,11 @@ The data itself will not be uploaded due to limitations in file size, but I will
 
 ### My goals
 
-Through the #30DayMapChallenge I want to: - be more familiar with R and python to draw maps using code. I will try to stay away from QGIS and Illustrator, although it is tempting to use them... - also be familiar with other software that I don't know. Blender might be one of them. - know more about London, the UK and Europe. The datasets will probably feature London and surrounding areas a lot. Some data might come from Japan. - know where to get data. Any recommendations are appreciated!
+Through the #30DayMapChallenge I want to: 
+- be more familiar with R and python to draw maps using code. I will try to stay away from QGIS and Illustrator, although it is tempting to use them...
+- also be familiar with other software that I don't know. Blender might be one of them.
+- know more about London, the UK and Europe. The datasets will probably feature London and surrounding areas a lot. Some data might come from Japan.
+- know where to get data. Any recommendations are appreciated!
 
 ## The Maps
 
