@@ -1,0 +1,168 @@
+---
+title: "Day20"
+author: "Soki Kimura"
+date: "2023-11-21"
+output: html_document
+---
+
+## Loading Data
+
+```{r}
+library(sf)
+library(janitor)
+library(terra)
+library(tidyverse)
+library(tidyterra)
+library(viridis)
+library(showtext)
+source("mapping.R")
+
+# load buildings
+buildings <- st_read("../Data/Bristol/ukbuildings_5224361/ukbuildings_5224361.gpkg") %>%
+  # transform into British National Grid
+  st_transform(., 27700)
+
+# load polygon
+polygon <- st_read("../Data/Bristol/Bristol_area.gpkg") %>%
+  # transform into British National Grid
+  st_transform(., 27700)
+
+# load terrain
+# using OS Terrain 50 grids ST56,57,58,66,67,68
+grid <- c(57,58,66,67,68)
+
+terrain <- rast("../Data/Bristol/st56_OST50GRID_20230518/ST56.asc")
+for (x in grid) {
+  path <- paste("../Data/Bristol/st",x,"_OST50GRID_20230518/ST",x,".asc", sep = "")
+  obj <- rast(path) %>%
+    terra::project(., "epsg:27700")
+  terrain <- terra::merge(terrain, obj)
+}
+terrain <- terra::project(terrain, "epsg:27700")
+
+```
+## Extract terrain
+
+```{r}
+
+# get exact
+terrain_mask <- terrain %>%
+  terra::crop(., polygon) %>%
+  terra::mask(., polygon)
+
+plot(terrain_mask)
+
+```
+
+
+## Map using ggplot
+
+```{r}
+
+# metadata"
+day = 20
+theme = "Outdoors"
+map_title = "The Heights of \"Outdoors\" in Bristol"
+map_subtitle = "Height of the areas not covered by buildings in the City of Bristol"
+sources = "Verisk Digimap, OS Terrain 50, OpenStreetMap"
+
+# fonts
+font = "Copse"
+font_add_google(font)
+showtext_auto()
+
+# bounding box
+bbox <- polygon %>%
+  st_bbox(.) %>%
+  square_bbox(., zoom = 1)
+
+plot <- 
+  ggplot() + 
+  
+  # draw the administrative area
+  geom_spatraster(
+    data = terrain_mask,
+  ) +
+  
+  # draw the buildings
+  geom_sf(
+    data = buildings,
+    color = NA,
+    fill = "ghostwhite"
+  ) + 
+
+  # set titles
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    x = NULL,
+    y = NULL
+  ) +
+
+  scale_fill_viridis(
+    name = "Height",
+    na.value = NA,
+    begin = 0.4,
+    end = 1,
+  ) +
+  
+  # set limits
+  lims(
+    x = c(bbox[1], bbox[3]),
+    y = c(bbox[2], bbox[4])
+  ) +
+  
+  theme(
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "gray30",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 50,
+      hjust = 0,
+      margin = margin(t = 20, b = -10)
+    ),
+    plot.subtitle = element_text(
+      size = 40,
+      hjust= 0,
+      margin = margin(t = 20, b = -10)
+    ),
+    plot.caption = element_text(
+      size = 30,
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0,
+    ),
+    plot.tag.position = c(0,0.98),
+    plot.background = element_rect(
+      fill = "ghostwhite",
+      color = NA,
+    ),
+#    plot.margin = margin(t = -50, r = -50, b = -50, l = -50, unit = "pt"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0.05,0.1),
+    legend.justification = c("left", "bottom"),
+    legend.background = element_blank(),
+    legend.key = element_blank()
+  )
+
+
+# save file
+ggsave(
+  "../Maps/Day20.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+
+```

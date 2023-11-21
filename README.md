@@ -29,6 +29,14 @@ Through the #30DayMapChallenge I want to:
 
 ## The Maps
 
+### Day 20: Outdoors
+![Height of Bristol Outdoors](Maps/Day20.png)
+
+Today I visited the data for the city of Bristol: data was collected for part of my assignment, although never visited the city in person.  
+I have mapped the height data for Bristol, and thought about the topic of "outdoors" and decided to un-map where the buildings are, leaving the outdoors to be mapped.
+
+Ordinance Survey has a detailed map on heights as well, which is what I decided to map! I was not familiar with the .asc file type, but worked out just fine.
+
 ### Day 19: 5-minute map
 ![London Transport Networks](Maps/Day19.png)
 
