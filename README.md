@@ -29,6 +29,16 @@ Through the #30DayMapChallenge I want to:
 
 ## The Maps
 
+### Day 21: Raster
+![Forestation Rates](Maps/Day21.png)
+
+I wanted to explore new datasets today, and found an interesting dataset by the [JAXA Global ALOS project](https://www.eorc.jaxa.jp/ALOS/en/index_e.htm) of Japan, where it determines the forest/non-forest-ness of the world.
+
+I needed the low-res version of their data to map the whole world, and found out that the latest version they had was from 2010. Using high-res data might be better for detailed analysis, but that will not happen today.
+
+I have re-used the template from day 18, showing that a lot of the area in the world is completely non-forest.
+
+
 ### Day 20: Outdoors
 ![Height of Bristol Outdoors](Maps/Day20.png)
 
