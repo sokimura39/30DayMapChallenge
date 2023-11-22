@@ -1,0 +1,62 @@
+---
+title: "Day22_North_is_not_always_up"
+author: "Soki Kimura"
+date: "2023-10-31"
+output: html_document
+---
+
+
+# Load Libraries
+
+```{r}
+
+library(sf)
+library(terra)
+library(tidyverse)
+library(tidyterra)
+
+```
+
+# load data
+
+```{r}
+# load world map
+# Source: Natural Earth 1:50m Natural Earth I
+# https://www.naturalearthdata.com/downloads/50m-raster-data/50m-natural-earth-1/
+
+world_map <- terra::rast(
+  "../Data/World_Polygons/raster/no_ocean/NE2_50M_SR.tif"
+  ) %>%
+  aggregate(., fact = 2)
+```
+
+## Change projection into BNG
+
+```{r}
+# transform into British National Grid
+
+world_BNG <- world_map %>%
+  terra::project(., "epsg:27700")
+
+# set RGB layers
+terra::RGB(world_BNG) <- c(1,2,3)
+
+# write to png
+png(
+  filename = "../Data/World_Polygons/raster/world_BNG_2100.png",
+  # height = nrow(world_BNG),
+  # width = ncol(world_BNG)
+  height = 2100,
+  width = 2100,
+  bg = "#fbfbfb"
+)
+plot(world_BNG)
+dev.off()
+
+```
+
+## Edit Image
+
+Since I found it difficult to edit this image on R, I let some graphic software do the job
+
+

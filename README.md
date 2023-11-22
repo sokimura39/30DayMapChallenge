@@ -29,7 +29,16 @@ Through the #30DayMapChallenge I want to:
 
 ## The Maps
 
+### Day 22: North is not always up
+
+![The World in British National Grid](Maps/Day22.png)
+
+In order to make a flat map from a spherical Earth, we have to distort some of the characteristics in one way or another. In today's map I have distorted it in a way that we usually do not see: transforming the whole world into a British National Grid!
+
+I thought about making this sort of map for the "Bad Map", but I felt there is no significant difference between this map and the Mercator projection that we usually see. The BNG is a transverse Mercator projection with 2°West as the central meridian instead of having the equator the origin in an "usual" Mercator scale. Hey, what difference does that make?
+
 ### Day 21: Raster
+
 ![Forestation Rates](Maps/Day21.png)
 
 I wanted to explore new datasets today, and found an interesting dataset by the [JAXA Global ALOS project](https://www.eorc.jaxa.jp/ALOS/en/index_e.htm) of Japan, where it determines the forest/non-forest-ness of the world.
@@ -40,6 +49,7 @@ I have re-used the template from day 18, showing that a lot of the area in the w
 
 
 ### Day 20: Outdoors
+
 ![Height of Bristol Outdoors](Maps/Day20.png)
 
 Today I visited the data for the city of Bristol: data was collected for part of my assignment, although never visited the city in person.  
@@ -48,6 +58,7 @@ I have mapped the height data for Bristol, and thought about the topic of "outdo
 Ordinance Survey has a detailed map on heights as well, which is what I decided to map! I was not familiar with the .asc file type, but worked out just fine.
 
 ### Day 19: 5-minute map
+
 ![London Transport Networks](Maps/Day19.png)
 
 London road and rail networks, filtered the main ones, plotted on QGIS, period.
@@ -56,6 +67,7 @@ It took 6 minutes and 24 seconds. I took too much time tweaking the aesthetics.
 I'm not going to spend more time explaining the map than making it, but I am truly surprised you can make a decent map in this limited amount of time!
 
 ### Day 18: Atmosphere
+
 ![Temperature Range](Maps/Day18.png)
 
 Atmosphere: I mapped the temperature range showing the annual temperature difference between the maximum and minimum.
@@ -63,6 +75,7 @@ Atmosphere: I mapped the temperature range showing the annual temperature differ
 Today's significance for me is creating a "legendgram", although this is just an inset density plot using the same dataset and coloring. Does this help understand the whole picture better?
 
 ### Day 17: Flow
+
 ![Santander Bike Flows](Maps/Day17.png)
 
 For flows, I came back to the dataset that I used for Day 1 of the challenge: Santander Cycles. I really do think I've come very far!
@@ -78,6 +91,7 @@ I stopped here today, but am thinking about further analysis on this to see if a
 
 
 ### Day 16: Oceania
+
 ![Average Temperature in Oceania](Maps/Day16.png)
 
 The first day of the second half: Oceania! This was a difficult area to map.
@@ -94,6 +108,7 @@ Still, it's interesting to find how cold Australia actually is. My northern hemi
 Sources: WorldClim, ArcHub
 
 ### Day 15: OpenStreetMap
+
 ![Surveillance Camera Clusters in London](Maps/Day15.png)
 
 Halfway through the #30DayMapChallenge !
@@ -110,6 +125,7 @@ Today, I used the DBSCAN analysis to find out whether there are any notable clus
 Please let me know if you have any thoughts!
 
 ### Day 14: Europe
+
 ![Fires in London Boroughs in 2022](Maps/Day14.png)
 
 Europe. I probably should have mapped something more European, but the fire alarm that rang last Sunday night was so irritating I decided to search how often this kind of event occurs.  
@@ -122,6 +138,7 @@ Today's map is my first 3D version, featuring my home borough of Camden successf
 
 
 ### Day 13: Choropleth
+
 ![Tri-variant Choropleth of disasters, precipitation and GDP](Maps/Day13.png)
 
 Choropleths are the most basic of maps, and now they're starting to get bivariate.  
@@ -138,6 +155,7 @@ The correlations are difficult to make out, but comparing Europe and Asia, there
 Source: World Bank, EM-DAT.
 
 ### Day 12: South America
+
 ![Precipitation in South America](Maps/Day12.png)
 
 South America is the continent that observes the highest annual precipitation. This is a map of where the precipitation occurs in this area.  
@@ -151,6 +169,7 @@ It is Day 12 already, and noticed I was not using raster data at all! For me thi
 Source: WorldClim
 
 ### Day 11: Retro
+
 ![London Bus Routes Retro Version](Maps/Day11.png)
 
 For retro, I remade the map I made in Day 2: with aesthetics in retro style.  
@@ -162,6 +181,7 @@ Doing things completely in code makes these adjustments so easy; I don't want to
 Sources: TfL Unified API, London Datastore
 
 ### Day 10: North America
+
 ![Traffic Direction in NYC](Maps/Day10.png)
 
 When I was in elementary school, I used to live in Westchester County just north of New York City. Back then I didn't know about this field of GIS or geography (well I did spend some time playing SimCity, if that counts), so I decided to revisit New York with a geospatial lens!
@@ -174,6 +194,7 @@ Sources: NYC Open Data
 
 
 ### Day 9: Hexagons
+
 ![AirBNBs in London](Maps/Day09.png)
 
 Analysis using hexagons is totally new to me. When I was doing my undergraduate in Japan, the only grids we used were the square ones.  
