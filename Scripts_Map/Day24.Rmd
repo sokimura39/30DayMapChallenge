@@ -1,0 +1,163 @@
+---
+title: "Day 24 - Black and White"
+author: "Soki Kimura"
+date: "2023-11-24"
+output: html_document
+---
+
+# Black and White
+
+## Load libraries
+
+```{r load libraries}
+
+library(sf)
+library(tidyverse)
+library(showtext)
+library(ggtext)
+source("mapping.R")
+
+```
+
+
+## Load data
+
+```{r load data}
+
+local <- st_read("../Data/Japan/N03-20230101_GML/N03-23_230101.shp", options = "ENCODING=CP932")
+
+```
+
+## Fetch Black and White
+
+
+```{r}
+
+black <- local %>%
+  filter((str_detect(N03_001, "黒") | str_detect(N03_002, "黒") | str_detect(N03_003, "黒") | str_detect(N03_004, "黒")))
+
+white <- local %>%
+  filter((str_detect(N03_001, "白") | str_detect(N03_002, "白") | str_detect(N03_003, "白") | str_detect(N03_004, "白")))
+
+bw <- rbind(black, white)
+```
+
+
+## map
+
+```{r}
+
+# metadata
+day = 24
+theme = "Black and White"
+map_title = "<span style='color:black;'>Black</span> and <span style='color:white;'>White</span> Places in Japan"
+map_subtitle = "Municipalities in Japan with <br><span style='color:black;'>黒 [black]</span> or <span style='color:white;'>白 [white]</span> in their name"
+sources = "MLIT Japan"
+
+# fonts
+font = "Noto Sans JP"
+font_add_google(font)
+showtext_auto()
+
+# bounding box
+bbox <- st_bbox(bw) %>%
+  square_bbox(., zoom = 1.2)
+
+
+plot <- 
+  ggplot() + 
+
+  # draw Japan
+  geom_sf(
+    data = local,
+    fill ="gray50",
+    color = NA,
+    lwd = NA
+  ) +
+  
+  # draw black
+  geom_sf(
+    data = black,
+    fill ="black",
+    color = NA
+  ) +
+  
+  # draw black
+  geom_sf(
+    data = white,
+    fill ="white",
+    color = NA
+  ) +
+
+  # set titles
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    x = NULL,
+    y = NULL
+  ) +
+  
+  # set limits
+  lims(
+    x = c(bbox[1], bbox[3]),
+    y = c(bbox[2], bbox[4])
+  ) +
+  
+  theme(
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "gray60",
+      lineheight = 0.5
+    ),
+    plot.title = element_markdown(
+      size = 50,
+      hjust = 0,
+      valign = -6,
+      margin = margin(t = 30)
+    ),
+    plot.subtitle = element_markdown(
+      size = 40,
+      hjust= 0,
+      valign = -9,
+      margin = margin(t = 10, b = -40)
+    ),
+    plot.caption = element_text(
+      size = 30,
+      hjust = 1,
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0,
+    ),
+    plot.tag.position = c(0,0.98),
+    plot.background = element_rect(
+      fill = "gray40",
+      color = NA,
+    ),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.key = element_blank(),
+    legend.text = element_blank()
+  )
+
+
+# save file
+ggsave(
+  "../Maps/Day24.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+
+
+```
+
+
+

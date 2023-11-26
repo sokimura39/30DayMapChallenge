@@ -29,6 +29,16 @@ Through the #30DayMapChallenge I want to:
 
 ## The Maps
 
+### Day 24: Black and White
+
+![Places with Black and White](Maps/Day24.png)
+
+Let's visit Japan for the second day in a row in this challenge.
+
+Now for black and white, I wanted to answer the simple question: where in Japan is it "black" or "white"? This map could be one answer: the places where the names include black or white! To be honest I was expecting a bit more for both; I might have needed to include more places, like names of rivers, mountains, and other natural terrain.
+
+No clear trend for this one, but there might be some interesting trends for some other colors!
+
 ### Day 23: 3D
 
 ![Zoning restrictions in Osaka, Japan](Maps/Day23.png)
