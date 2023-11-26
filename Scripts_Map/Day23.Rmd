@@ -72,7 +72,7 @@ japan <- st_read("../Data/Japan/gadm41_JPN_shp/gadm41_JPN_1.shp") %>%
 
 day = 23
 theme = "3D"
-map_title = "Volume Ristrictions in Osaka, Japan"
+map_title = "Volume Restrictions in Osaka, Japan"
 map_subtitle = "Restriction of Volume of Buildings by Area"
 sources = "Ministry of Land, Infrastructure, Transport and Tourism of Japan"
 
