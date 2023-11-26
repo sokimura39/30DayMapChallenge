@@ -1,0 +1,231 @@
+---
+title: "Day23"
+author: "Soki Kimura"
+date: "2023-11-23"
+output: html_document
+---
+
+# Japanese Planning Restrictions
+
+## Load libraries and required data
+
+```{r libraries}
+
+library(sf)
+library(tidyverse)
+library(janitor)
+library(rayshader)
+library(magick)
+source("mapping.R")
+
+```
+
+
+```{r data}
+
+paths <- c(
+  "../Data/Japan/001628668/27100_大阪市/27100_youto.shp",
+  "../Data/Japan/001628668/27140_堺市/27140_youto.shp",
+  "../Data/Japan/001628668/27203_豊中市/27203_youto.shp",
+  "../Data/Japan/001628668/27204_池田市/27204_youto.shp",
+  "../Data/Japan/001628668/27205_吹田市/27205_youto.shp",
+  "../Data/Japan/001628668/27209_守口市/27209_youto.shp",
+  "../Data/Japan/001628668/27212_八尾市/27212_youto.shp",
+  "../Data/Japan/001628668/27217_松原市/27217_youto.shp",
+  "../Data/Japan/001628668/27223_門真市/27223_youto.shp",
+  "../Data/Japan/001628668/27227_東大阪市/27227_youto.shp",
+  "../Data/Japan/001628669/28_兵庫県/28202_尼崎市/28202_youto.shp"
+)
+
+# create list
+polygon <- list()
+
+polygon[[1]] <- st_read(paths[1]) %>%
+  st_transform(., 6668)
+all_polygons <- polygon[[1]]
+
+# load planning data for Osaka
+
+for(x in 2:length(paths)){
+  polygon[[x]] <-  st_read(paths[x]) %>%
+    st_transform(., 6668)
+  all_polygons <- rbind(all_polygons, polygon[[x]])
+}
+
+# fetch bounding box
+bbox <- polygon[[1]] %>%
+  st_bbox() %>%
+  square_bbox(., zoom = 1.25)
+
+# load polygon for Japan
+japan <- st_read("../Data/Japan/gadm41_JPN_shp/gadm41_JPN_1.shp") %>%
+  st_transform(., 6668)
+
+
+```
+
+## Plot map
+
+```{r map}
+
+# metadata
+
+day = 23
+theme = "3D"
+map_title = "Volume Ristrictions in Osaka, Japan"
+map_subtitle = "Restriction of Volume of Buildings by Area"
+sources = "Ministry of Land, Infrastructure, Transport and Tourism of Japan"
+
+# fonts - doesn't work with magick
+# font = "Noto Sans JP"
+# font_add_google(font)
+# showtext_auto()
+
+plot <- 
+  ggplot() +
+  # plot Japan
+  geom_sf(
+    data = japan,
+    fill = "ghostwhite",
+    color = NA
+  ) +
+  
+  # # plot Osaka
+  # geom_sf(
+  #   data = all_polygons,
+  #   fill = "indianred1",
+  #   color = NA,
+  #   show.legend = FALSE
+  # ) +
+
+  # set limits
+  lims(
+    x = c(bbox[1], bbox[3]),
+    y = c(bbox[2], bbox[4])
+  ) +
+  
+  # set theme
+  theme(
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    plot.background = element_rect(
+      fill = "paleturquoise3",
+      color = NA,
+    ),
+    plot.margin = margin(0, 0, 0, 0)
+  )
+
+# set height extrusion
+plot_height <-
+  ggplot() +
+  
+  # plot Osaka
+  geom_sf(
+    data = all_polygons,
+    aes(fill = 容積率),
+    color = NA,
+    show.legend = FALSE
+  ) +
+  
+  # set scale
+  scale_fill_continuous(
+    limits = c(0, 1000)
+  ) +
+  
+  # set limits
+  lims(
+    x = c(bbox[1], bbox[3]),
+    y = c(bbox[2], bbox[4])
+  ) +
+  
+  # set theme
+  theme(
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    plot.margin = margin(0, 0, 0, 0)
+  )
+
+plot
+
+
+```
+
+## Make 3D
+
+```{r rayshader}
+
+# rayshader
+plot_gg(
+  ggobj = plot, ggobj_height = plot_height,
+  width = 7, height = 7, 
+  multicore = TRUE, scale = 250, 
+  pointcontract = 0.3,
+  flat_transparent_bg = TRUE,
+  zoom = 0.24, theta = 130, phi = 30, windowsize = c(800, 800),
+  shadow = FALSE, max_error = 0.01, offset_edges = 0.5,
+  solid = FALSE
+)
+
+render_snapshot("../in_progress/Day23_notext.png", software_render = TRUE,
+                width = 2100, height = 2100)
+
+```
+
+## Annotate Text
+
+```{r}
+
+textcolor = "gray10"
+
+img <- image_read("../in_progress/Day23_notext.png")
+
+img %>%
+  # add tag
+  image_annotate(
+    paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    gravity = "northwest",
+    size = 40,
+    location = "+20+50",
+    font = "Trebuchet",
+    color = textcolor
+  ) %>%  
+  
+  # add title
+  image_annotate(
+    map_title,
+    gravity = "northwest",
+    size = 80,
+    location = "+20+150",
+    font = "Trebuchet",
+    color = textcolor
+  ) %>%
+  
+  # add subtitle
+  image_annotate(
+    map_subtitle,
+    gravity = "northwest",
+    size = 60,
+    location = "+20+250",
+    font = "Trebuchet",
+    color = textcolor
+  ) %>%
+  
+  # add source
+  image_annotate(
+    paste("Sources: ", sources, sep = ""),
+    gravity = "southeast",
+    size = 40,
+    location = "+20+20",
+    font = "Trebuchet",
+    color = textcolor
+  ) %>%
+  
+    
+  image_write("../Maps/Day23.png")
+
+```
+

@@ -29,6 +29,18 @@ Through the #30DayMapChallenge I want to:
 
 ## The Maps
 
+### Day 23: 3D
+
+![Zoning restrictions in Osaka, Japan](Maps/Day23.png)
+
+I wanted to map something worth mapping in 3D.
+This map shows the zoning restrictions in Osaka, Japan in terms of density. 
+
+The Japanese zoning system restrict the volume allowed in each area, limiting the ratio of the floor area to the land area. (i.e. A 200 % limit means a building is allowed a floor area twice the land area.)
+An interesting characteristic is that high-density designations are located along main avenues, so in this map the grid pattern of Osaka can be visible, although this is merely mapping the density restrictions!
+
+Data fetched from the Ministry of Land, Infrastructure, Transport and Tourism, whom opened a [new website](https://www.mlit.go.jp/toshi/tosiko/toshi_tosiko_tk_000182.html) where planning data can be obtained as shapefiles.
+
 ### Day 22: North is not always up
 
 ![The World in British National Grid](Maps/Day22.png)
