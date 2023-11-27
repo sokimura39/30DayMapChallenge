@@ -1,0 +1,184 @@
+---
+title: "Day25 - Antarctica"
+author: "Soki Kimura"
+date: "2023-11-27"
+output: html_document
+---
+
+# Antarctica
+
+```{r}
+
+library(sf)
+library(tidyverse)
+library(terra)
+library(showtext)
+library(tidyterra)
+library(viridis)
+
+```
+
+## Clean data
+
+```{r load data}
+
+# load antarctic coastlines
+polygon <- 
+  st_read("../Data/Antarctica/stanford-yk702xd7587-shapefile/yk702xd7587.shp")
+
+# load climate data (min temp of coldest month)
+temp <- terra::rast("../Data/World_Climate/wc2.1_5m_bio/wc2.1_5m_bio_6.tif")
+
+# load historical monuments
+monuments <- st_read("../Data/Antarctica/antarctic_historic_sites_monuments_point_v1.0/antarctic_historic_sites_monuments_point_v1.0.shp")
+
+```
+
+```{r crop and transform}
+
+temp_antarctica <- temp %>%
+  terra::crop(., polygon) %>%
+  terra::mask(., polygon) %>%
+  project(., "epsg:3031")
+
+polygon <- polygon %>%
+  st_transform(., 3031)
+
+monuments <- monuments %>%
+  st_transform(., 3031)
+
+bbox <- st_bbox(polygon)
+
+```
+
+## Map
+
+```{r}
+
+# metadata
+day = 25
+theme = "Antarctica"
+map_title = "Monuments in Antarctica"
+map_subtitle = "Historic Monuments Placed in Antarctica in the Extreme Weather"
+sources = "UK Polar Data Centre, UC Berkeley Library, WorldClim"
+
+# fonts
+font = "Exo"
+font_add_google(font)
+showtext_auto()
+
+
+# plot
+plot <- 
+  ggplot() +
+  
+  # map temperature
+  geom_spatraster(
+    data = temp_antarctica
+  ) +
+  
+  # map monuments
+  geom_sf(
+    data = monuments,
+    aes(alpha = "Monuments"),
+    shape = 18,
+    color = "white",
+    size = 3
+  ) +
+      # labels
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    color = "Category",
+    x = NULL,
+    y = NULL
+  ) +
+  
+  # set fill scale
+  scale_fill_viridis(
+    option = "mako",
+    name = "Minimum Temperature",
+    na.value = NA,
+    limits = c(-80,0),
+    guide = guide_colorbar(
+      order = 2,
+      direction = "horizontal",
+      barwidth = 10,
+      barheight = 0.4,
+      title.position = "top",
+      title.hjust = 0,
+      label.position = "bottom",
+      ticks.colour = NA
+    )
+  ) +
+  
+  # set legend for Monuments
+  scale_alpha_manual(
+    name = "Monuments",
+    labels = "",
+    values = 1,
+    guide = guide_legend(
+      override.aes = list(color = "white", size = 5),
+      title.position = "left",
+      order = 1
+    )
+  ) +
+
+  # set theme
+  theme(
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "white",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 60,
+      hjust = 0,
+      vjust = -6
+    ),
+    plot.subtitle = element_text(
+      size = 40,
+      hjust= 0,
+      vjust = -11
+    ),
+    plot.caption = element_text(
+      size = 30,
+      hjust = 1
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0,1),
+    plot.background = element_rect(
+      fill = "gray10",
+      color = NA,
+    ),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0.05,0.05),
+    legend.justification = c("left", "bottom"),
+    legend.background = element_blank(),
+    legend.key = element_blank()
+  )
+
+# save file
+ggsave(
+  "../Maps/Day25.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+
+
+```
+
+
+

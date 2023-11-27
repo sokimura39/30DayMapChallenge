@@ -29,6 +29,17 @@ Through the #30DayMapChallenge I want to:
 
 ## The Maps
 
+### Day 25: Antarctica
+
+![Historic Monuments in Antarctica](Maps/Day25.png)
+
+Antarctica: the windiest, coldest, and driest continent on Earth.
+This extreme weather has made even reaching a particular point quite an achievement!
+
+I have mapped the monuments that commemorate these achievements that are located in this continent. They do have data for everything. 
+
+The most remarkable is the one on the geographic south pole, but there's quite a lot, including tents from expeditions, tractors, abandoned stations, and even cemeteries.
+
 ### Day 24: Black and White
 
 ![Places with Black and White](Maps/Day24.png)
