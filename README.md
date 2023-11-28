@@ -29,6 +29,15 @@ Through the #30DayMapChallenge I want to:
 
 ## The Maps
 
+### Day 26: Minimal
+
+![Minimal Map of London](Maps/Day26.png)
+
+For minimal I went for the stereotype minimal: lines only, geometric shape, geometric font.
+
+Map of London centered around Tottenham Court Road Station, very close to UCL. Very straightforward and minimal map!
+
+
 ### Day 25: Antarctica
 
 ![Historic Monuments in Antarctica](Maps/Day25.png)

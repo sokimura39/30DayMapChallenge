@@ -1,0 +1,146 @@
+---
+title: "Day26 - Minimal"
+author: "Soki Kimura"
+date: "2023-11-26"
+output: html_document
+---
+
+## Load libraries and data
+
+```{r load libraries}
+
+library(sf)
+library(tidyverse)
+library(extrafont)
+library(magick)
+
+```
+
+
+```{r load data}
+
+roads <- read_sf("../Data/OSM/greater-london-latest-free.shp/gis_osm_roads_free_1.shp") 
+roads_BNG <- roads %>%
+  st_transform(., 27700)
+
+rail <- read_sf("../Data/OSM/greater-london-latest-free.shp/gis_osm_railways_free_1.shp") %>%
+  st_transform(., 27700)
+
+```
+
+
+```{r crop data}
+
+# set centre point (Tottenham Court Road Station)
+centre <- data.frame(x = 529827, y = 181372) %>%
+  st_as_sf(., coords = c("x", "y"), crs = 27700)
+
+buffer <- st_buffer(centre, 2000)
+
+# cut with buffer
+roads_circle <- roads_BNG %>%
+  st_intersection(., buffer)
+rails_circle <- rail %>%
+  st_intersection(., buffer)
+
+```
+
+
+## plot
+
+```{r plot}
+
+plot <- 
+  ggplot() +
+  
+  # roads
+  geom_sf(
+    data = roads_circle,
+    color = "slategray4"
+  ) + 
+  # rails
+  geom_sf(
+    data = rails_circle,
+    color = "violetred"
+  ) +
+  
+  # set theme
+  theme(
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    plot.background = element_rect(
+      fill = "ghostwhite",
+      color = NA
+    ),
+    plot.margin = margin(t = 20, r = 50, b = 80, l = 50)
+  )
+
+ggsave(
+  "../in_progress/Day26_notext.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+
+```
+
+### Add text
+
+```{r}
+
+
+# metadata
+day = 26
+theme = "Minimal"
+map_title = "L O N D O N"
+sources = "OpenStreetMap"
+
+# fonts
+
+font = "TW Cen MT"
+
+
+# text color
+textcolor = "midnightblue"
+
+img <- image_read("../in_progress/Day26_notext.png")
+
+img %>%
+  
+  # add tag
+  image_annotate(
+    paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    gravity = "northwest",
+    size = 60,
+    location = "+20+20",
+    font = font,
+    color = textcolor
+  ) %>%  
+  
+  # add title
+  image_annotate(
+    map_title,
+    gravity = "south",
+    size = 200,
+    location = "+0+130",
+    font = font,
+    color = textcolor
+  ) %>%
+  
+  # add source
+  image_annotate(
+    paste("Sources: ", sources, sep = ""),
+    gravity = "southeast",
+    size = 60,
+    location = "+20+20",
+    font = font,
+    color = textcolor
+  ) %>%
+    
+  image_write("../Maps/Day26.png")
+
+
+```
+
