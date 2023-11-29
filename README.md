@@ -29,6 +29,18 @@ Through the #30DayMapChallenge I want to:
 
 ## The Maps
 
+### Day 27: Dots
+
+![Points of Interests in London](Maps/Day27.png)
+
+We had points in day 1, and now dots.
+I considered dots as something that do not represent particular points, where points the location itself represents the existence of something.
+
+I represented London using dots today, changing the size according to the density of Points of Interests in that area.
+
+The dot pattern reminded me of the halftone dots in printing, so I tweaked the overall look of the map into a retro color scheme.
+
+
 ### Day 26: Minimal
 
 ![Minimal Map of London](Maps/Day26.png)

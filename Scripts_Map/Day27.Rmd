@@ -1,0 +1,173 @@
+---
+title: "Day 27 - Dots"
+author: "Soki Kimura"
+date: "2023-11-27"
+output: html_document
+---
+
+# Plotting Data with dots (from hex grid)
+
+## Load libraries and data
+
+```{r load libraries}
+
+library(sf)
+library(tidyverse)
+library(showtext)
+source("mapping.R")
+
+```
+
+
+```{r load data}
+
+# load points of interest
+poi <- st_read("../Data/OSM/greater-london-latest-free.shp/gis_osm_pois_free_1.shp") %>%
+  st_transform(., 27700)
+
+# load hexagons
+hexagons <- st_read("../Data/London_polygons/shp-hexagon-files/gla-canopy-hex.shp") %>%
+  st_transform(., 27700)
+
+# load boroughs
+borough <- st_read("../Data/London_polygons/London_Boroughs.gpkg") %>%
+  st_transform(., 27700)
+
+```
+
+## Analyse data
+
+```{r analysis}
+
+# join data
+
+poi_hex <- hexagons %>%
+  st_join(., poi, .predicate = st_intersects, left = FALSE) %>%
+  group_by(., hex_id) %>%
+  summarize(pois = n())
+
+poi_centroid <- poi_hex %>%
+  st_centroid()
+
+poi_centroid <- poi_centroid[borough, ] %>%
+  st_join(., borough, .predicate = st_intersects)
+
+```
+
+## Plot data
+
+```{r}
+
+# metadata
+day = 27
+theme = "Dots"
+map_title = "Number of Points of Interests"
+map_subtitle = "Density of POIs in London by Hex Grid"
+sources = "OpenStreetMap, London Data Store"
+
+# fonts
+font = "Sulphur Point"
+font_add_google(font)
+showtext_auto()
+
+# set bounding box
+bbox <- st_bbox(hexagons) %>%
+  square_bbox(.)
+
+plot <- 
+  ggplot() +
+  
+  geom_sf(
+    data = poi_centroid,
+    aes(color = name, size = pois),
+    shape = 16,
+    alpha = 0.7
+  ) + 
+  
+  # add scale
+  scale_size(
+    name = "Points of Interest",
+    range = c(0.1, 2),
+    guide = guide_legend(
+      override.aes = list(alpha = 1, color = "deeppink")
+    )
+  ) +
+  
+  # hide color legend
+  guides(
+    color = FALSE,
+  ) +
+  # 
+  # # set limits
+  # lims(
+  #   x = c(bbox[1], bbox[3]),
+  #   y = c(bbox[2], bbox[4])
+  # ) +
+  
+  # set labels
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    x = NULL,
+    y = NULL
+  ) +
+  
+  theme(
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "cyan4",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 70,
+      hjust = 0,
+      vjust = -2
+    ),
+    plot.subtitle = element_text(
+      size = 50,
+      hjust= 0,
+      vjust = -3.5
+    ),
+    plot.caption = element_text(
+      size = 30,
+      hjust = 1
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0,1),
+    plot.background = element_rect(
+      fill = "cornsilk1",
+      color = NA,
+    ),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0,0),
+    legend.justification = c("left", "bottom"),
+    legend.background = element_blank(),
+    legend.key = element_blank()
+  )
+
+ggsave(
+  "../Maps/Day27.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+
+
+```
+
+
+
+
+
+
