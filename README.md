@@ -29,6 +29,17 @@ Through the #30DayMapChallenge I want to:
 
 ## The Maps
 
+### Day 28: Is this a chart or a map?
+
+![Elevation of Capital Cities](Maps/Day28.png)
+
+Spreading the boundaries of a map for this one. 
+The [Cambridge Dictionary ](https://dictionary.cambridge.org/dictionary/english/map) defines a map as "a drawing of the earth's surface" showing natural or artificial stuff.
+
+How about taking the cross-section of the surface? I plotted X-Z plane, plotting longitude on one axis and the elevation on the other. The data is purely geographic, but doesn't necessarily draw the earth's surface.
+
+Is this a chart or a map?
+
 ### Day 27: Dots
 
 ![Points of Interests in London](Maps/Day27.png)

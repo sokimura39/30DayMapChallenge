@@ -1,0 +1,219 @@
+---
+title: "Day 28 - Map or Chart"
+author: "Soki Kimura"
+date: "2023-11-30"
+output: html_document
+---
+
+## Load libraries and data
+
+```{r libraries}
+
+library(sf)
+library(tidyverse)
+library(terra)
+library(showtext)
+library(viridis)
+
+```
+
+```{r data}
+
+# elevation data
+# source: https://www.ncei.noaa.gov/products/etopo-global-relief-model
+elev <- terra::rast("../Data/Elevation/ETOPO_2022_v1_30s_N90W180_bed.tif")
+
+# world cities data
+cities <- st_read("../Data/World_Cities/World_Cities.shp")
+
+```
+
+## Extract data from raster
+
+```{r}
+
+# extract data
+cities_elev <- terra::extract(elev, cities)
+
+cities <- cities %>%
+  mutate(elevation = cities_elev$ETOPO_2022_v1_30s_N90W180_bed)
+
+```
+
+
+```{r}
+
+cities_coord <- cities %>%
+  st_coordinates(.)
+
+cities_df <- cities %>%
+  bind_cols(., cities_coord) %>%
+  st_drop_geometry()
+
+capitals <- cities_df %>%
+  filter(., str_detect(STATUS, "National"))
+
+extremes <- capitals %>%
+  filter(., ((elevation > 2500) | elevation < -400))
+
+```
+
+
+# plot
+
+```{r}
+
+# metadata
+day = 28
+theme = "Map or Chart?"
+map_title = "Elevations of Capital Cities in the World"
+map_subtitle = "A \"map\" using the x-z plane instead of x-y"
+sources = "ETOPO Global Relief Model (US Nat'l Centers for Environmental Information)"
+
+# fonts
+font = "Roboto Condensed"
+font_add_google(font)
+showtext_auto()
+
+# comment
+comment1 <- "The extracted height of cities on island countries"
+comment2 <- "fell below sea level due to low resolution of data."
+
+plot <- 
+  ggplot() +
+  geom_point(
+    data = capitals,
+    aes(x = X, y = elevation, size = POP, color = elevation),
+  ) +
+  
+  # annotate comment
+  annotate(
+    "text",
+    x = 0,
+    y = -300,
+    label = "Note:",
+    size = 10,
+    hjust = 0,
+    color = "gray30"
+  ) +
+
+    annotate(
+    "text",
+    x = 0,
+    y = -500,
+    label = comment1,
+    size = 7,
+    hjust = 0,
+    color = "gray30"
+  ) +
+  annotate(
+    "text",
+    x = 0,
+    y = -600,
+    label = comment2,
+    size = 7,
+    hjust = 0,
+    color = "gray30"
+  ) +
+
+    # set labels
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    color = "Category",
+    x = "Longitude",
+    y = "Elevation [m]"
+  ) +
+  
+  # change grid
+  scale_x_continuous(
+    breaks = c(-180, -90, 0, 90, 180),
+    minor_breaks = c(-135, -45, 45, 135)
+  ) +
+  
+  scale_y_continuous(
+    breaks = c(-1000, 0, 1000, 2000, 3000)
+  ) +
+    
+  # change color
+  scale_color_viridis(
+    option = "viridis",
+    begin = 0.4,
+    end = 1
+  ) +
+
+      
+  # add size legend
+  scale_size(
+    name = "Population (Million)",
+    range = c(0.1, 4),
+    breaks = c(5000000, 10000000, 15000000, 20000000),
+    labels = c(5, 10, 15, 20),
+    guide = guide_legend(
+      override.aes = list(alpha = 1, color = "gray30"),
+      direction = "horizontal",
+      title.position = "top",
+      title.hjust = 1,
+      label.position = "bottom"
+    )
+  ) +
+  
+  # hide color legend
+  guides(
+    color = FALSE
+  ) +
+  
+  
+  theme(
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "gray10",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 50,
+      hjust = 0,
+      vjust = -2
+    ),
+    plot.subtitle = element_text(
+      size = 40,
+      hjust= 0,
+      vjust = -3.5
+    ),
+    plot.caption = element_text(
+      size = 30,
+      hjust = 1
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0
+    ),
+    plot.tag.position = c(0,1),
+    plot.background = element_rect(
+      fill = "ghostwhite",
+      color = NA,
+    ),
+    panel.background = element_blank(),
+#    panel.grid = element_blank(),
+#    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(1,1),
+    legend.justification = c("right", "top"),
+    legend.background = element_blank(),
+    legend.key = element_blank()
+  )
+
+ggsave(
+  "../Maps/Day28.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+
+```
+
