@@ -1,0 +1,158 @@
+---
+title: "Day 29 - Population"
+author: "Soki Kimura"
+date: "2023-11-29"
+output: html_document
+---
+
+## Load libraries and data
+
+```{r}
+
+library(sf)
+library(terra)
+library(rayrender)
+library(rayshader)
+library(tidyverse)
+library(RColorBrewer)
+library(colorspace)
+library(extrafont)
+library(magick)
+
+```
+
+
+```{r load data}
+
+# Load polygons from ArcHUB
+polygon <- st_read("../Data/World_Polygons/World_Countries_Generalized/World_Countries_Generalized.shp")
+
+# load the population data
+# source: https://ghsl.jrc.ec.europa.eu/download.php?ds=pop
+pop_world <- terra::rast("../Data/World_Population/GHS_POP_E2030_GLOBE_R2023A_4326_30ss_V1_0/GHS_POP_E2030_GLOBE_R2023A_4326_30ss_V1_0.tif")
+```
+
+## crop the data we need
+
+```{r crop data}
+
+# extract UK and Ireland
+polygon_filter <- polygon %>%
+  dplyr::filter(., ISO %in% c("IE", "GB"))
+
+# extract raster to polygon
+pop_crop <- pop_world %>%
+  terra::crop(., polygon_filter) %>%
+  terra::mask(., polygon_filter)
+
+```
+
+## Convert data to mappable format
+
+```{r make plot}
+
+# create color palette
+palette <- brewer.pal(5, "Oranges")
+texture <- grDevices::colorRampPalette(palette, bias = 3)(256)
+swatchplot(texture)
+
+
+# convert to BNG
+pop_crop <- pop_crop %>%
+  terra::project("EPSG:27700")
+
+# make matrix
+pop_matrix <- pop_crop %>%
+  raster_to_matrix()
+
+
+```
+
+
+```{r make 3d}
+
+# draw matrix
+pop_matrix %>%
+  height_shade(texture = texture) %>%
+  plot_3d(., 
+          heightmap = pop_matrix,
+          zscale = 50,
+          solid = FALSE,
+          shadow = FALSE,
+          shadowdepth = 0,
+          background = "steelblue4")
+
+# set camera position
+render_camera(theta = -10, phi = 40, zoom = 0.7)
+
+# save snapshot
+render_snapshot(filename = "../in_progress/Day29_notext.png",
+                software_render = TRUE,
+                width = 2100, height = 2100)
+
+```
+
+## Annotate Text
+
+```{r}
+
+# metadata
+day = 29
+theme = "Population"
+map_title = "Population Density of the British Isles"
+map_subtitle = "Population Spike Map of United Kingdom and Ireland"
+sources = "European Commision GHSL"
+
+
+textcolor = "white"
+font = "Garamond"
+
+img <- image_read("../in_progress/Day29_notext.png")
+
+img %>%
+  # add tag
+  image_annotate(
+    paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    gravity = "northwest",
+    size = 40,
+    location = "+20+50",
+    font = font,
+    color = textcolor
+  ) %>%  
+  
+  # add title
+  image_annotate(
+    map_title,
+    gravity = "northwest",
+    size = 80,
+    location = "+20+150",
+    font = font,
+    color = textcolor
+  ) %>%
+  
+  # add subtitle
+  image_annotate(
+    map_subtitle,
+    gravity = "northwest",
+    size = 60,
+    location = "+20+250",
+    font = font,
+    color = textcolor
+  ) %>%
+  
+  # add source
+  image_annotate(
+    paste("Sources: ", sources, sep = ""),
+    gravity = "southeast",
+    size = 40,
+    location = "+20+20",
+    font = font,
+    color = textcolor
+  ) %>%
+  
+    
+  image_write("../Maps/Day29.png")
+
+```
+
+

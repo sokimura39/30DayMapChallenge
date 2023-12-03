@@ -29,6 +29,18 @@ Through the #30DayMapChallenge I want to:
 
 ## The Maps
 
+### Day 29: Population
+
+![Population Spike Map](Maps/Day29.png)
+
+I always wanted to make the spike map I see in many places, and have seen throughout the challenge.
+Now is probably the last chance to make it, and here it is: a spike map of UK and Ireland.
+Although I didn't use the `render_highquality()` function, it still is pleasing!
+
+London might be a massive outlier, but it is definitely not the only place in this country where it's densily inhabited!
+
+One more to go!
+
 ### Day 28: Is this a chart or a map?
 
 ![Elevation of Capital Cities](Maps/Day28.png)
