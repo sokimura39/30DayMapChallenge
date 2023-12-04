@@ -29,6 +29,23 @@ Through the #30DayMapChallenge I want to:
 
 ## The Maps
 
+### Day 30: My Favorite ...
+
+![Flow of Santander Cycles by Zone](Maps/Day30.png)
+
+I made it to the final day. My favorite.
+
+I think my favorite for this is the dataset I started with: Santander Cycles.
+
+Apparently the docks are separated into zones, but which zone are the cycles most used? Which combination? Are they complete within zones, or are they traveling long distances?
+
+This is the map I got. People ride around Hyde Park, Queen Elizabeth Olympic Park, and Marylbone. This was a more obvious pattern than I thought there would be!
+
+I did the data wrangling in Python, and I have uploaded the code for that as well!
+
+Anyway, this is the end of my challenge, and hope you enjoyed!
+
+
 ### Day 29: Population
 
 ![Population Spike Map](Maps/Day29.png)

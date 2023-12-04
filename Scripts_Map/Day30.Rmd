@@ -1,0 +1,188 @@
+---
+title: "Day30"
+author: "Soki Kimura"
+date: "2023-11-30"
+output: html_document
+---
+
+## Load libraries and data
+
+```{r load libraries}
+
+library(sf)
+library(tidyverse)
+library(showtext)
+library(viridis)
+source("mapping.R")
+
+```
+
+
+```{r load data}
+
+# load edited data
+same <- st_read("../Data/Cycles/Journeys/intra_zone.gpkg")
+diff <- st_read("../Data/Cycles/Journeys/inter_zone.gpkg")
+
+# load the Thames
+thames <- st_read("../Data/London_polygons/River_Thames_simplified.gpkg") %>%
+  st_transform(., 27700)
+
+```
+
+```{r filter}
+
+# filter with trips over 100
+diff_filt <- diff %>%
+  dplyr::filter(Trips > 100)  
+
+```
+
+
+## Map using ggplot
+
+```{r}
+
+# metadata
+day = 30
+theme = "My favorite..."
+map_title = "The Flow of Santander Cycles by Zone"
+map_subtitle = "Number of Journeys by Origin and Destination Zones"
+sources = "TfL Unified API"
+
+# fonts
+font = "Hammersmith One"
+font_add_google(font)
+showtext_auto()
+
+# bounding box
+bbox <- same %>%
+  st_bbox(.) %>%
+  square_bbox(., zoom = 1.1)
+
+plot <- 
+  ggplot() + 
+
+  
+  # draw the Thames
+  geom_sf(
+    data = thames,
+    fill ="goldenrod1",
+    alpha = 0.4,
+    color = NA
+  ) +
+  
+  # draw the trips
+  geom_sf(
+    data = diff_filt,
+    aes(lwd = Trips, color = Trips),
+    alpha = 0.6
+  ) + 
+
+  # draw intrazone 
+  geom_sf(
+    data = same,
+    aes(stroke = Trips / 400, color = Trips),
+    shape = 21,
+    fill = NA,
+    size = 3,
+    alpha = 0.6
+  ) +
+  
+  # set titles
+  labs(
+    title = map_title,
+    subtitle = map_subtitle,
+    caption = paste("Sources:",sources, sep = " "),
+    tag = paste("#30DayMapChallenge Day",day,"-",theme, sep = " "),
+    x = NULL,
+    y = NULL
+  ) +
+  
+  # set limits
+  lims(
+    x = c(bbox[1], bbox[3]),
+    y = c(bbox[2], bbox[4])
+  ) +
+  
+  # set colors
+  scale_color_viridis(
+    option = "magma",
+    begin = 0.8,
+    end = 0.2,
+    name = "Number of Trips",
+    trans = "sqrt",
+    guide = guide_colorbar(
+      title.position = "top",
+      barwidth = 5,
+      barheight = 0.3,
+      direction = "horizontal",
+      ticks.colour = NA
+    )
+  ) +
+  
+  scale_linewidth_continuous(
+    range = c(0.25, 3),
+    guide = FALSE
+  ) +
+  
+  theme(
+    text = element_text(
+      family = font,
+      size = 30,
+      color = "goldenrod4",
+      lineheight = 0.5
+    ),
+    plot.title = element_text(
+      size = 50,
+      hjust = 0.14,
+      vjust = -2.5,
+      margin = margin(t = 70, r = -100, b = -50, l = 110)
+    ),
+    plot.subtitle = element_text(
+      size = 40,
+      hjust= 0.15,
+      vjust = -2,
+      margin = margin(t = 70, r = -100, b = -50, l = 110)
+    ),
+    plot.caption = element_text(
+      size = 30,
+      hjust = 0.9,
+      margin = margin(t = -40, r = 70, b = 50, l = -60)
+    ),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.tag = element_text(
+      size = 30,
+      hjust = 0,
+      margin = margin(t = 50, r = -20, b = -30, l = 30)
+    ),
+    plot.tag.position = c(0,0.95),
+    plot.background = element_rect(
+      fill = "snow",
+      color = NA,
+    ),
+    plot.margin = margin(t = -50, r = -50, b = -50, l = -50, unit = "pt"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = c(0.05,0.1),
+    legend.justification = c("left", "bottom"),
+    legend.background = element_blank(),
+    legend.key = element_blank(),
+    legend.text = element_blank()
+  )
+
+
+# save file
+ggsave(
+  "../Maps/Day30.png",
+  plot = plot,
+  width = 7,
+  height = 7
+)
+
+```
+
+
