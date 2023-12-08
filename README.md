@@ -30,7 +30,7 @@ Through the #30DayMapChallenge I want to:
 
 ## Summary of My Maps
 
-![Gallery](file://C:\Users\Soki\OneDrive - University College London\21_Activities\30DayMapChallenge\Maps\Maps_Gallery.png?msec=1702044766432)
+![Gallery](Maps\Maps_Gallery.png)
 
 The maps I made for this year's #30DayMapChallenge !!! 
 
