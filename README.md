@@ -12,20 +12,41 @@ Background in planning, new to London from Japan, some knowledge about QGIS, and
 
 ### This repository is:
 
--   where I will be uploading my maps!
--   where I will be uploading my code as well
--   my first public repository on GitHub
--   my first project using R and python
+- where I will be uploading my maps!
+- where I will be uploading my code as well
+- my first public repository on GitHub
+- my first project using R and python
 
 The data itself will not be uploaded due to limitations in file size, but I will try to be as reproducible as possible (but this might happen later.)
 
 ### My goals
 
 Through the #30DayMapChallenge I want to: 
+
 - be more familiar with R and python to draw maps using code. I will try to stay away from QGIS and Illustrator, although it is tempting to use them...
 - also be familiar with other software that I don't know. Blender might be one of them.
 - know more about London, the UK and Europe. The datasets will probably feature London and surrounding areas a lot. Some data might come from Japan.
 - know where to get data. Any recommendations are appreciated!
+
+## Summary of My Maps
+
+![Gallery](file://C:\Users\Soki\OneDrive - University College London\21_Activities\30DayMapChallenge\Maps\Maps_Gallery.png?msec=1702044766432)
+
+The maps I made for this year's #30DayMapChallenge !!! 
+
+### What I gained from the challenge
+
+- 30 new works of my own!
+- Mapping skills using R (especially using `terra`, `sf`, `tidyverse` and `ggplot2`, and `rayshader`)
+- New connections with the mapping community!
+
+### What I couldn't do really well
+
+- Time. It took time.
+- Wanted to explore other tools! Especially 3D stuff like Blender or Unity.
+- Should have gone more into interactive works
+
+Anyway, I survived! Thank you everyone for the tremendous support, engagement, and sharing! Not sure whether I will do this again, but gained so much from it!
 
 ## The Maps
 
@@ -44,7 +65,6 @@ This is the map I got. People ride around Hyde Park, Queen Elizabeth Olympic Par
 I did the data wrangling in Python, and I have uploaded the code for that as well!
 
 Anyway, this is the end of my challenge, and hope you enjoyed!
-
 
 ### Day 29: Population
 
@@ -80,7 +100,6 @@ I represented London using dots today, changing the size according to the densit
 
 The dot pattern reminded me of the halftone dots in printing, so I tweaked the overall look of the map into a retro color scheme.
 
-
 ### Day 26: Minimal
 
 ![Minimal Map of London](Maps/Day26.png)
@@ -88,7 +107,6 @@ The dot pattern reminded me of the halftone dots in printing, so I tweaked the o
 For minimal I went for the stereotype minimal: lines only, geometric shape, geometric font.
 
 Map of London centered around Tottenham Court Road Station, very close to UCL. Very straightforward and minimal map!
-
 
 ### Day 25: Antarctica
 
@@ -141,7 +159,6 @@ I needed the low-res version of their data to map the whole world, and found out
 
 I have re-used the template from day 18, showing that a lot of the area in the world is completely non-forest.
 
-
 ### Day 20: Outdoors
 
 ![Height of Bristol Outdoors](Maps/Day20.png)
@@ -183,7 +200,6 @@ Their journey data did not include any spatial data, only the name and the ID of
 I added a [Scripts_Data](https://github.com/sokimura39/30DayMapChallenge/tree/master/Scripts_Data) folder to save the Jupiter Notebook I have worked on for today's (and Day 1's) data wrangling.
 I stopped here today, but am thinking about further analysis on this to see if any interesting data pops out!
 
-
 ### Day 16: Oceania
 
 ![Average Temperature in Oceania](Maps/Day16.png)
@@ -191,6 +207,7 @@ I stopped here today, but am thinking about further analysis on this to see if a
 The first day of the second half: Oceania! This was a difficult area to map.
 
 I ended up with a simple map of the annual average temperature in Australia, hence I couldn't quite manage to do the following:
+
 - Precisely extract all the countries and territories that are recognized as "Oceania"
 - Find a way to map areas too small if you just mapped the rasters
 - Find a nice way to center around the International Date Line, not the Prime Meridian
@@ -230,7 +247,6 @@ I wanted to try the 3D rendering made available by the Rayshader package.
 
 Today's map is my first 3D version, featuring my home borough of Camden successfully hiding itself behind the fire-filled City of Westminster. Okay, at least it's good to know I don't need to expect too many weekend evenings disturbed!
 
-
 ### Day 13: Choropleth
 
 ![Tri-variant Choropleth of disasters, precipitation and GDP](Maps/Day13.png)
@@ -255,6 +271,7 @@ Source: World Bank, EM-DAT.
 South America is the continent that observes the highest annual precipitation. This is a map of where the precipitation occurs in this area.  
 
 I was quite surprised to see two things from the map I made:
+
 1. The continent does rain a lot. Even the light-colored areas see around 2,000 mm of precipitation per year, which is almost triple of that of the UK. (Japan has an average of 1,700 mm which is still a lot, but the continent as a whole having this much is impressive.)
 2. The extremes are really extreme. Although I was prepared when  [Wikipedia](https://en.wikipedia.org/wiki/List_of_countries_by_average_annual_precipitation) told me Colombia has an average of 3,200 mm, I did not expect over 7,000 mm in certain areas. I also expected the highest point will be somewhere in the Amazon!  
 
@@ -286,7 +303,6 @@ Seems like NYC has a decent set of open geospatial data to explore...
 
 Sources: NYC Open Data
 
-
 ### Day 9: Hexagons
 
 ![AirBNBs in London](Maps/Day09.png)
@@ -300,7 +316,6 @@ Did some basic spatial joins, but did not expect over 200 listings in a single c
 Just having a dark background makes the maps a lot cooler, but my interest toward graphic design makes me want to make cool maps using a lighter theme....
 
 Sources: London Datastore, AirBNB
-
 
 ### Day 8: Africa
 
@@ -339,7 +354,6 @@ I sourced Wikipedia since no others came handy, but felt like I was betraying al
 
 Sources: Wikipedia, World Bank
 
-
 ### Day 5: Analog Map
 
 ![Mental Map of London](Maps/Day05.png)
@@ -347,6 +361,7 @@ Sources: Wikipedia, World Bank
 For an analog map, I made a map of London - in a way I understand it!  
 Inspired by **"The Image of the City"** I tried to draw what I know about the city, and how each component affects how I perceive it.  
 Few things I noticed:
+
 - Inside or outside of the Ring Road is a big deal to me, crossing it is another big deal (every day I do!)
 - The roads and rail do help me a lot when it comes to recognition
 - Cycling around the city did help me a lot!
@@ -403,10 +418,10 @@ Keep in mind, this is imaginary!
 
 ##### Historic
 
-| **Name**               | **Description**                                                                                                                                   |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Time Traveler's Tavern | A historic tavern in Islington, where time travelers from different eras gather, sharing stories over ale and traditional British fare.           |
-| Historical Harbor      | A historic harbor in Tower Hamlets, once bustling with trade ships and pirate legends, now transformed into a museum preserving maritime history. |
+| **Name**               | **Description**                                                                                                                                                      |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Time Traveler's Tavern | A historic tavern in Islington, where time travelers from different eras gather, sharing stories over ale and traditional British fare.                              |
+| Historical Harbor      | A historic harbor in Tower Hamlets, once bustling with trade ships and pirate legends, now transformed into a museum preserving maritime history.                    |
 | Theater of Legends     | A historic theater in Camden, where legendary performances from Shakespearean plays to modern dramas captivate audiences, preserving the city's theatrical heritage. |
 
 ### Day 3: Polygons
@@ -418,7 +433,6 @@ The Green Belts in England is definitely something that characterizes its urban 
 I also tried out the ggplot2 package to map today. I found it difficult to show texts the way I want it to, but maybe practice makes better!
 
 Sources: data.gov.uk, gadm.org
-
 
 ### Day 2: Lines
 
@@ -442,5 +456,3 @@ For the very first day of my very first #30DayMapChallenge, I have mapped the do
 The points are colored according to the area name within the docking station name.
 
 Sources: TfL Unified API, OpenStreetMap 
-
-
