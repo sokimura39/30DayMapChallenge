@@ -30,7 +30,7 @@ Through the #30DayMapChallenge I want to:
 
 ## Summary of My Maps
 
-![Gallery](Maps\Maps_Gallery.png)
+![Gallery](Maps/Maps_Gallery.png)
 
 The maps I made for this year's #30DayMapChallenge !!! 
 
