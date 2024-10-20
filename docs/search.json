@@ -2,29 +2,43 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "30DayMapChallenge 2023",
+    "title": "30-Day Map Challenge",
     "section": "",
-    "text": "#30DayMapChallenge 2023\nThese are the maps I created for the #30DayMapChallenge for 2023.\nThis was the first (and so far my only) time I participated in the #30DayMapChallenge. All codes can be found at my GitHub repository."
+    "text": "Overview"
   },
   {
-    "objectID": "index.html#gallery",
-    "href": "index.html#gallery",
-    "title": "30DayMapChallenge 2023",
+    "objectID": "index.html#my-contributions",
+    "href": "index.html#my-contributions",
+    "title": "30-Day Map Challenge",
+    "section": "My contributions",
+    "text": "My contributions\nI have run through the challenge in the following years. Follow the link on each year for more information!\n\nMy contributions to the #30DayMapChallenge. Hoping the list gets longer!\n\n\nYear\nNumber of Maps Made\n\n\n\n\n2024\nComing Soon!\n\n\n2023\n30"
+  },
+  {
+    "objectID": "2023.html#gallery",
+    "href": "2023.html#gallery",
+    "title": "2023",
     "section": "Gallery",
     "text": "Gallery"
   },
   {
-    "objectID": "index.html#reflections",
-    "href": "index.html#reflections",
-    "title": "30DayMapChallenge 2023",
+    "objectID": "2023.html#reflections",
+    "href": "2023.html#reflections",
+    "title": "2023",
     "section": "Reflections",
     "text": "Reflections\nAfter 30 days of map-making, a few things that came to my mind:\n\nWhat I gained from the challenge\n\n30 new works of my own!\nMapping skills using R (especially using terra, sf, tidyverse and ggplot2, and rayshader)\nNew connections with the mapping community!\n\n\n\nWhat I couldn’t do really well\n\nTime. It took time.\nWanted to explore other tools! Especially 3D stuff like Blender or Unity.\nShould have gone more into interactive works\n\nAnyway, I survived! Thank you everyone for the tremendous support, engagement, and sharing!"
   },
   {
-    "objectID": "index.html#acknowledgements",
-    "href": "index.html#acknowledgements",
-    "title": "30DayMapChallenge 2023",
+    "objectID": "2023.html#acknowledgements",
+    "href": "2023.html#acknowledgements",
+    "title": "2023",
     "section": "Acknowledgements",
     "text": "Acknowledgements\nThis page was created using Quarto on RStudio. The gallery was made using the pixture package."
+  },
+  {
+    "objectID": "index.html#about-the-challenge",
+    "href": "index.html#about-the-challenge",
+    "title": "30-Day Map Challenge",
+    "section": "About the Challenge",
+    "text": "About the Challenge\nThe #30DayMapChallenge is an online event that takes place every year, where participants create maps for every day on the month of November.\nCheck out the official website for more details on the challenge!"
   }
 ]

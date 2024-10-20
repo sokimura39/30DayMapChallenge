@@ -1,0 +1,78 @@
+# #30DayMapChallenge 2023 {.unnumbered}
+
+These are the maps I created for the [\#30DayMapChallenge](https://30daymapchallenge.com/) for 2023.
+
+This was the first (and so far my only) time I participated in the \#30DayMapChallenge.
+All codes can be found at [my GitHub repository](https://github.com/sokimura39/30DayMapChallenge).
+
+## Gallery
+
+```{r echo=FALSE}
+
+library(pixture)
+
+# create paths
+days <- seq(1, 30)
+paths <- paste0('https://raw.githubusercontent.com/sokimura39/30DayMapChallenge/master/2023/Maps/Day', formatC(days, width = 2, flag = '0'), '.png')
+
+# captions
+captions <- c(
+  "Day 1 - Points: Santander Docking Stations in London",
+  "Day 2 - Lines: Bus Routes in Greater London",
+  "Day 3 - Polygons: Green Belts in England",
+  "Day 4 - A Bad Map: Tourist Spots in London Made Up by ChatGPT",
+  "Day 5 - Analog Map: A Mental Map of London",
+  "Day 6 - Asia: The 50 Busiest Airports in Asia",
+  "Day 7 - Navigation: A Cycle Navigation Map of London",
+  "Day 8 - Africa: African Cities",
+  "Day 9 - Hexagons: AirBNBs in London",
+  "Day 10 - North America: Direction of Traffic in Manhattan, NY",
+  "Day 11 - Retro: Bus Routes in Greater London - Retro Version",
+  "Day 12 - South America: Precipitation in South America",
+  "Day 13 - Choropleth: Precipitation, Disaster and GDP",
+  "Day 14 - Europe: Fires in London Boroughs in 2022",
+  "Day 15 - OpenStreetMap: Clusters of Surveillance Cameras in London",
+  "Day 16 - Oceania: Average Annual Temperature in Australia",
+  "Day 17 - Flow: The Flow of Santander Cycles",
+  "Day 18 - Atmosphere: The Temperature Annual Range",
+  "Day 19 - 5-Minute Map: Transport Network in London",
+  "Day 20 - Outdoors: The Height of Outdoors in Bristol",
+  "Day 21 - Raster: The Forest Coverage of the World",
+  "Day 22 - North is not Always Up - The World Projected to the British National Grid",
+  "Day 23 - 3D: Volume Restrictions in Osaka, Japan",
+  "Day 24 - Black and White: Black and White Places in Japan",
+  "Day 25 - Antarctica: Monuments in Antarctica",
+  "Day 26 - Minimal: London",
+  "Day 27 - Dots: Number of Points of Interest",
+  "Day 28 - Is this a Chart or a Map?: Elevations of Capital Cities in the World",
+  "Day 29 - Population: Population Density of the British Isles",
+  "Day 30 - My Favorite: The Flow of Santander Cycles by Zone"
+)
+
+pixgallery(paths, captions, dim = "200px", type = "grid")
+
+```
+
+## Reflections
+
+After 30 days of map-making, a few things that came to my mind:
+
+### What I gained from the challenge
+
+- 30 new works of my own!
+- Mapping skills using R (especially using `terra`, `sf`, `tidyverse` and `ggplot2`, and `rayshader`)
+- New connections with the mapping community!
+
+### What I couldn't do really well
+
+- Time. It took time.
+- Wanted to explore other tools! Especially 3D stuff like Blender or Unity.
+- Should have gone more into interactive works
+
+Anyway, I survived! Thank you everyone for the tremendous support, engagement, and sharing!
+
+## Acknowledgements
+
+This page was created using [Quarto](https://quarto.org/) on RStudio. The gallery was made using the [pixture](https://www.royfrancis.com/pixture/index.html) package.
+
+

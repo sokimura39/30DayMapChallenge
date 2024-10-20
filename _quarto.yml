@@ -3,11 +3,11 @@ project:
   output-dir: docs
 
 book:
-  title: "30DayMapChallenge 2023"
+  title: "30-Day Map Challenge"
   author: "Soki Kimura"
-  date: "11/30/2023"
   chapters:
     - index.qmd
+    - 2023.qmd
 
 format:
   html:
