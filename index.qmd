@@ -12,7 +12,7 @@ I have run through the challenge in the following years. Follow the link on each
 
 | Year | Number of Maps Made |
 | :-- | --: |
-| 2024 | Coming Soon! |
+| [2024](2024.qmd) | 9 |
 | [2023](2023.qmd) | 30 |
 
 : My contributions to the \#30DayMapChallenge. Hoping the list gets longer!

@@ -8,12 +8,11 @@ book:
   chapters:
     - index.qmd
     - 2023.qmd
+    - 2024.qmd
 
 format:
   html:
     theme: cosmo
-  pdf:
-    documentclass: scrreprt
 
 editor: visual
 

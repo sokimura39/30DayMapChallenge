@@ -4,41 +4,79 @@
     "href": "index.html",
     "title": "30-Day Map Challenge",
     "section": "",
-    "text": "Overview"
-  },
-  {
-    "objectID": "index.html#my-contributions",
-    "href": "index.html#my-contributions",
-    "title": "30-Day Map Challenge",
-    "section": "My contributions",
-    "text": "My contributions\nI have run through the challenge in the following years. Follow the link on each year for more information!\n\nMy contributions to the #30DayMapChallenge. Hoping the list gets longer!\n\n\nYear\nNumber of Maps Made\n\n\n\n\n2024\nComing Soon!\n\n\n2023\n30"
-  },
-  {
-    "objectID": "2023.html#gallery",
-    "href": "2023.html#gallery",
-    "title": "2023",
-    "section": "Gallery",
-    "text": "Gallery"
-  },
-  {
-    "objectID": "2023.html#reflections",
-    "href": "2023.html#reflections",
-    "title": "2023",
-    "section": "Reflections",
-    "text": "Reflections\nAfter 30 days of map-making, a few things that came to my mind:\n\nWhat I gained from the challenge\n\n30 new works of my own!\nMapping skills using R (especially using terra, sf, tidyverse and ggplot2, and rayshader)\nNew connections with the mapping community!\n\n\n\nWhat I couldn’t do really well\n\nTime. It took time.\nWanted to explore other tools! Especially 3D stuff like Blender or Unity.\nShould have gone more into interactive works\n\nAnyway, I survived! Thank you everyone for the tremendous support, engagement, and sharing!"
-  },
-  {
-    "objectID": "2023.html#acknowledgements",
-    "href": "2023.html#acknowledgements",
-    "title": "2023",
-    "section": "Acknowledgements",
-    "text": "Acknowledgements\nThis page was created using Quarto on RStudio. The gallery was made using the pixture package."
+    "text": "Overview",
+    "crumbs": [
+      "Overview"
+    ]
   },
   {
     "objectID": "index.html#about-the-challenge",
     "href": "index.html#about-the-challenge",
     "title": "30-Day Map Challenge",
     "section": "About the Challenge",
-    "text": "About the Challenge\nThe #30DayMapChallenge is an online event that takes place every year, where participants create maps for every day on the month of November.\nCheck out the official website for more details on the challenge!"
+    "text": "About the Challenge\nThe #30DayMapChallenge is an online event that takes place every year, where participants create maps for every day on the month of November.\nCheck out the official website for more details on the challenge!",
+    "crumbs": [
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "index.html#my-contributions",
+    "href": "index.html#my-contributions",
+    "title": "30-Day Map Challenge",
+    "section": "My contributions",
+    "text": "My contributions\nI have run through the challenge in the following years. Follow the link on each year for more information!\n\nMy contributions to the #30DayMapChallenge. Hoping the list gets longer!\n\n\nYear\nNumber of Maps Made\n\n\n\n\n2024\n9\n\n\n2023\n30",
+    "crumbs": [
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "2023.html",
+    "href": "2023.html",
+    "title": "2023",
+    "section": "",
+    "text": "Gallery\nThese are the maps I created for the #30DayMapChallenge 2023.\nThis was the first time I participated in the #30DayMapChallenge. This time I had successfully created all 30 maps. The majority of the maps are made using R and its tidyverse ecosystem, and codes can be found at my GitHub repository.",
+    "crumbs": [
+      "2023"
+    ]
+  },
+  {
+    "objectID": "2023.html#reflections",
+    "href": "2023.html#reflections",
+    "title": "2023",
+    "section": "Reflections",
+    "text": "Reflections\nAfter 30 days of map-making, a few things that came to my mind:\n\nWhat I gained from the challenge\n\n30 new works of my own!\nMapping skills using R (especially using terra, sf, tidyverse and ggplot2, and rayshader)\nNew connections with the mapping community!\n\n\n\nWhat I couldn’t do really well\n\nTime. It took time.\nWanted to explore other tools! Especially 3D stuff like Blender or Unity.\nShould have gone more into interactive works\n\nAnyway, I survived! Thank you everyone for the tremendous support, engagement, and sharing!",
+    "crumbs": [
+      "2023"
+    ]
+  },
+  {
+    "objectID": "2023.html#acknowledgements",
+    "href": "2023.html#acknowledgements",
+    "title": "2023",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\nThis page was created using Quarto on RStudio. The gallery was made using the pixture package.",
+    "crumbs": [
+      "2023"
+    ]
+  },
+  {
+    "objectID": "2024.html",
+    "href": "2024.html",
+    "title": "2024",
+    "section": "",
+    "text": "Gallery\nMaps I have created for the #30DayMapChallenge 2024.\nThis year more focus was given toward interactive maps, exploring new tools such as Blender, and new approaches like collaboration.\nThe interactive maps are as follows:\nI have also made some static maps using Illstrator, Blender, Python and a bit of AI.",
+    "crumbs": [
+      "2024"
+    ]
+  },
+  {
+    "objectID": "2024.html#gallery",
+    "href": "2024.html#gallery",
+    "title": "2024",
+    "section": "",
+    "text": "Interactive maps made for the #30DayMapChallenge 2024\n\n\nDay\nTheme\nTitle\n\n\n\n\n1\nPoints\nCycle Hire Points in Japan\n\n\n12\nTime and Space\nRail Duration Map\n\n\n16\nChoropleth\nNational Regional Allowance Map",
+    "crumbs": [
+      "2024"
+    ]
   }
 ]
